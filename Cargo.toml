@@ -1,0 +1,7 @@
+[package]
+name = "truth-tester"
+version = "0.1.0"
+authors = ["Victor M. Suarez"]
+edition = "2018"
+
+[dependencies]
