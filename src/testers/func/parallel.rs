@@ -1,0 +1,93 @@
+use super::Tester;
+use crate::State;
+use rayon::prelude::*;
+
+impl<E> Tester<E>
+where
+    E: Fn(&State) -> bool + Send + Sync,
+{
+    /// Checks if any of possible states of the `var_count`
+    /// variables fails the given expression.
+    ///
+    /// This function returns `true` if all possible states pass
+    /// the given `expr`. And `false` otherwise.
+    ///
+    /// This function is the parallel version of `Tester::passes`
+    pub fn passes_par(var_count: usize, expr: E) -> bool {
+        Tester::new(var_count, expr).succeeded_par()
+    }
+
+    /// Checks if any of possible states of the `var_count`
+    /// variables passes the given expression.
+    ///
+    /// This function returns `true` if all possible states fail
+    /// the given `expr`. And `false` otherwise.
+    ///
+    /// This function is the parallel version of `Tester::fails`
+    pub fn fails_par(var_count: usize, expr: E) -> bool {
+        Tester::new(var_count, expr).failed_par()
+    }
+
+    /// This returns `true` iff there are no failures
+    ///
+    /// This function is the parallel version of `Tester::succeeded`
+    pub fn succeeded_par(&self) -> bool {
+        !self.failures_par().any(|_| true)
+    }
+
+    /// This returns `true` iff there are no sucesses
+    ///
+    /// This function is the parallel version of `Tester::failed`
+    pub fn failed_par(&self) -> bool {
+        !self.successes_par().any(|_| true)
+    }
+
+    fn iterations_par(&self) -> impl ParallelIterator<Item = usize> {
+        (0..self.state.max_iters()).into_par_iter()
+    }
+
+    /// Iterate over all the successes in parallel
+    pub fn successes_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
+        self.test_par(true)
+    }
+
+    /// Iterate over all the failures in parallel
+    pub fn failures_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
+        self.test_par(false)
+    }
+
+    fn test_par<'a>(&'a self, test: bool) -> impl ParallelIterator<Item = State> + 'a {
+        self.iterations_par().filter_map(move |iter| {
+            let s = self.state.iterate(iter);
+            if (self.expr)(&s) == test {
+                Some(s)
+            } else {
+                None
+            }
+        })
+    }
+
+    /// Get the full truth table
+    #[cfg(feature = "alloc")]
+    pub fn all_par(&self) -> alloc::vec::Vec<(State, bool)> {
+        self.iterations_par()
+            .map(move |iter| {
+                let s = self.state.iterate(iter);
+                let v = (self.expr)(&s);
+                (s, v)
+            })
+            .collect()
+    }
+
+    /// Get the full truth table
+    #[cfg(feature = "alloc")]
+    pub fn all_successes_par(&self) -> alloc::vec::Vec<State> {
+        self.successes_par().collect()
+    }
+
+    /// Get the full truth table
+    #[cfg(feature = "alloc")]
+    pub fn all_failures_par(&self) -> alloc::vec::Vec<State> {
+        self.failures_par().collect()
+    }
+}
