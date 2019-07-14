@@ -4,8 +4,6 @@ pub use func::ExprFn;
 #[cfg(feature = "alloc")]
 mod expression;
 
-use crate::{parsing::Tokens, State};
-
 /// A Trait representing all possible
 /// types that can hold an Expression
 /// that can be used inside a [`Tester`].
@@ -13,9 +11,15 @@ use crate::{parsing::Tokens, State};
 /// [`Tester`]: `Tester`
 pub trait Expression {}
 
+impl<E: ExprFn> Expression for E {}
+
+#[cfg(feature = "alloc")]
+use crate::parsing::Tokens;
+
 #[cfg(feature = "alloc")]
 impl<'a> Expression for Tokens<'a> {}
-impl<E: ExprFn> Expression for E {}
+
+use crate::State;
 
 /// A struct used to store both
 /// the user given expression,
