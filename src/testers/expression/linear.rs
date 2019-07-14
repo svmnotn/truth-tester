@@ -28,12 +28,12 @@ impl<'t> Tester<Tokens<'t>> {
 
     /// This returns `true` iff there are no failures
     pub fn succeeded(&self) -> bool {
-        !self.failures().any(|_| true)
+        self.failures().any(|_| true) == false
     }
 
     /// This returns `true` iff there are no sucesses
     pub fn failed(&self) -> bool {
-        !self.successes().any(|_| true)
+        self.successes().any(|_| true) == false
     }
 
     fn iterations(&self) -> impl Iterator<Item = usize> {

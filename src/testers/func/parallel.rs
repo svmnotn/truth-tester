@@ -43,7 +43,7 @@ where
     /// 
     /// [`Tester::succeeded`]: `Tester::succeeded`
     pub fn succeeded_par(&self) -> bool {
-        !self.failures_par().any(|_| true)
+        self.failures_par().any(|_| true) == false
     }
 
     /// This returns `true` iff there are no sucesses
@@ -52,7 +52,7 @@ where
     /// 
     /// [`Tester::failed`]: `Tester::failed`
     pub fn failed_par(&self) -> bool {
-        !self.successes_par().any(|_| true)
+        self.successes_par().any(|_| true) == false
     }
 
     fn iterations_par(&self) -> impl ParallelIterator<Item = usize> {
