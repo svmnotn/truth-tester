@@ -1,5 +1,4 @@
-use super::lexer::Lexer;
-use super::tokens::{Tokens, Token, TokenLiterals};
+use crate::{Lexer, Tokens, Token, TokenLiterals};
 use alloc::vec::Vec;
 
 /// Boolean Expression Parser

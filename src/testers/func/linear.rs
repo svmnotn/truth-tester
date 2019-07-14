@@ -1,5 +1,4 @@
-use super::{Tester, ExprFn};
-use crate::State;
+use crate::{Tester, ExprFn, State};
 
 /// Linear implementation of all 
 /// the [`Tester`] methods, 

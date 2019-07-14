@@ -10,9 +10,9 @@
 extern crate alloc;
 
 mod testers;
+pub use testers::{Tester, ExprFn};
 #[cfg(feature = "alloc")]
-pub use testers::{ExprTester, Lexer, Parser, Token, TokenLiterals};
-pub use testers::{FnTester, ExprFn};
+pub use testers::{Lexer, Parser, Token, Tokens, TokenLiterals};
 
 mod state;
 pub use state::State;

@@ -1,5 +1,4 @@
-use super::{Tester, ExprFn};
-use crate::State;
+use crate::{Tester, ExprFn, State};
 use rayon::prelude::*;
 
 /// Parallel implementation of all 

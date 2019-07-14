@@ -2,7 +2,7 @@ mod linear;
 #[cfg(feature = "parallel")]
 mod parallel;
 
-use crate::State;
+use crate::{Tester, State};
 
 /// A function that takes a [`State`] and returns a [`bool`]
 /// 
@@ -12,16 +12,6 @@ use crate::State;
 /// [`bool`]: `bool`
 /// [`State`]: `State`
 pub trait ExprFn = Fn(&State) -> bool;
-
-/// Use this type to test any function
-/// of the form `fn(&State) -> bool`
-pub struct Tester<E>
-where
-    E: ExprFn,
-{
-    state: State,
-    expr: E,
-}
 
 /// [`Tester`] based on an [`ExprFn`].
 /// 

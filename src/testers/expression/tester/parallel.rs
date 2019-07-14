@@ -7,7 +7,7 @@ use rayon::prelude::*;
 /// 
 /// [`Tester`]: `Tester`
 /// [`Tokens`]: `Tokens`
-impl<'t> Tester<'t> {
+impl<'t> Tester<Tokens<'t>> {
     /// Checks if any of possible states of all variables
     /// in the given input expression fails.
     ///

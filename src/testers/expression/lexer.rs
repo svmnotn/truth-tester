@@ -1,4 +1,4 @@
-use super::tokens::{Token, TokenLiterals};
+use crate::{Token, TokenLiterals};
 use alloc::collections::btree_map::BTreeMap;
 use core::{iter::Peekable, str::SplitWhitespace};
 

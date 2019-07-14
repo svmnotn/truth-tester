@@ -2,17 +2,13 @@ mod linear;
 #[cfg(feature = "parallel")]
 mod parallel;
 
-use super::{Parser, Token, Tokens};
-use crate::State;
+use crate::{Tester, State, Parser, Token, Tokens};
 
 /// [`Tester`] based on parsed [`Tokens`].
 /// 
 /// [`Tester`]: `Tester`
-/// [`Tokens`]: `Tokens`    state: State,
-    expr: Tokens<'t>,
-}
-
-impl<'t> Tester<'t> {
+/// [`Tokens`]: `Tokens`
+impl<'t> Tester<Tokens<'t>> {
     /// parse the given input into a [`Tester`]
     /// 
     /// [`Tester`]: `Tester`
