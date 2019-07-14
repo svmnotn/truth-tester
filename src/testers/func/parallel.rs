@@ -1,10 +1,10 @@
-use super::Tester;
+use super::{Tester, ExprFn};
 use crate::State;
 use rayon::prelude::*;
 
 impl<E> Tester<E>
 where
-    E: Fn(&State) -> bool + Send + Sync,
+    E: ExprFn + Send + Sync,
 {
     /// Checks if any of possible states of the `var_count`
     /// variables fails the given expression.

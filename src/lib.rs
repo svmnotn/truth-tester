@@ -1,12 +1,13 @@
 //! TODO better documentation
 #![no_std]
+#![feature(trait_alias)]
 #[cfg(feature = "alloc")]
 extern crate alloc;
 
-pub mod testers;
+mod testers;
 #[cfg(feature = "alloc")]
-pub use testers::ExprTester;
-pub use testers::FnTester;
+pub use testers::{ExprTester, Lexer, Parser, Token, TokenLiterals};
+pub use testers::{FnTester, ExprFn};
 
-pub mod state;
+mod state;
 pub use state::State;

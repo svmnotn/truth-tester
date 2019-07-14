@@ -1,8 +1,7 @@
-//! Here live all the Testers
 mod func;
-pub use func::Tester as FnTester;
+pub use func::{Tester as FnTester, ExprFn};
 
 #[cfg(feature = "alloc")]
-pub mod expression;
+mod expression;
 #[cfg(feature = "alloc")]
-pub use expression::ExprTester;
+pub use expression::{ExprTester, Token, TokenLiterals, Tokens, Parser, Lexer};

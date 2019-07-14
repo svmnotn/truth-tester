@@ -2,13 +2,14 @@ mod linear;
 #[cfg(feature = "parallel")]
 mod parallel;
 
-use super::{Parser, Token};
+use super::{Parser, Token, Tokens};
 use crate::State;
-use alloc::vec::Vec;
 
+/// Use this type to test the given
+/// boolean expression
 pub struct Tester<'t> {
     state: State,
-    expr: Vec<Token<'t>>,
+    expr: Tokens<'t>,
 }
 
 impl<'t> Tester<'t> {
@@ -26,7 +27,7 @@ impl<'t> Tester<'t> {
     }
 
     /// Create a new `Tester` from the given vector of `Token`s
-    pub fn new(mut expr: Vec<Token<'t>>) -> Self {
+    pub fn new(mut expr: Tokens<'t>) -> Self {
         if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
             Tester {
                 state: State::default(var_count),

@@ -1,6 +1,5 @@
-use super::{super::tokens::Token, Tester};
+use super::{Token, Tokens, Tester};
 use crate::State;
-use alloc::vec::Vec;
 use rayon::prelude::*;
 
 impl<'t> Tester<'t> {
@@ -13,7 +12,7 @@ impl<'t> Tester<'t> {
     /// This function is the parallel version of [`Tester::passes`]
     /// 
     /// [`Tester::passes`]: `Tester::passes`
-    pub fn passes_par(expr: Vec<Token<'t>>) -> bool {
+    pub fn passes_par(expr: Tokens<'t>) -> bool {
         Tester::new(expr).succeeded_par()
     }
 
@@ -26,7 +25,7 @@ impl<'t> Tester<'t> {
     /// This function is the parallel version of [`Tester::fails`]
     /// 
     /// [`Tester::fails`]: `Tester::fails`
-    pub fn fails_par(expr: Vec<Token<'t>>) -> bool {
+    pub fn fails_par(expr: Tokens<'t>) -> bool {
         Tester::new(expr).failed_par()
     }
 
@@ -73,6 +72,7 @@ impl<'t> Tester<'t> {
     fn test_par<'b>(&'b self, test: bool) -> impl ParallelIterator<Item = State> + 'b {
         self.iterations_par().filter_map(move |iter| {
             use Token::*;
+            use alloc::vec::Vec;
 
             let state = self.state.iterate(iter);
             let mut stack: Vec<bool> = Vec::new();

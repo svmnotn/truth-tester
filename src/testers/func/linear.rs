@@ -1,9 +1,9 @@
-use super::Tester;
+use super::{Tester, ExprFn};
 use crate::State;
 
 impl<E> Tester<E>
 where
-    E: Fn(&State) -> bool,
+    E: ExprFn,
 {
     /// Checks if any of possible states of the `var_count`
     /// variables fails the given expression.

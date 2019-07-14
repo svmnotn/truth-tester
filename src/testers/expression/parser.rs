@@ -1,5 +1,5 @@
 use super::lexer::Lexer;
-use super::tokens::{Token, TokenLiterals};
+use super::tokens::{Tokens, Token, TokenLiterals};
 use alloc::vec::Vec;
 
 /// Boolean Expression Parser
@@ -28,7 +28,7 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
     }
 
     /// Run the Shunting Yard algorithm on the input
-    pub fn shunting_yard(&mut self) -> Vec<Token<'t>> {
+    pub fn shunting_yard(&mut self) -> Tokens<'t> {
         use Token::*;
         let mut out: Vec<Token> = Vec::new();
         let mut stack: Vec<Token> = Vec::new();
