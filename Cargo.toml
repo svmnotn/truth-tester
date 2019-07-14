@@ -11,7 +11,7 @@ repository = "https://github.com/svmnotn/truth-tester"
 [features]
 default = ["parallel"]
 alloc = []
-# Rayon isn't no_std, thus if paralleism
+# Rayon isn't no_std, thus if parallelism
 # is enabled, so is our ability to use
 # allocation
 parallel = ["rayon", "alloc"]
