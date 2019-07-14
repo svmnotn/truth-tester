@@ -1,4 +1,6 @@
-/// A full expression, which is made of ['Token']s
+/// A full expression, which is made of [`Token`]s
+/// 
+/// [`Token`]: `Token`
 pub type Tokens<'a> = alloc::vec::Vec<Token<'a>>;
 
 /// All the possible supported tokens in a

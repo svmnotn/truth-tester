@@ -1,9 +1,18 @@
 use bit_field::BitField;
+// This is an import for the sake
+// of the docs
+#[allow(unused_imports)]
+use crate::Tester;
 
+/// The state of a [`Tester`]
+/// 
 /// Oversized to contain the maximum amount of variables possible
 /// in the architecture (32 in 32-bit, 64 in 64-bit).
 ///
-/// This is due to the variables being solely stored inside a `usize`
+/// This is due to the variables being solely stored inside a [`usize`]
+/// 
+/// [`Tester`]: `Tester`
+/// [`usize`]: `usize`
 #[derive(Clone, Copy)]
 pub struct State {
     vars: usize,

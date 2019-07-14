@@ -2,21 +2,27 @@ use super::{Token, Tester};
 use crate::State;
 use alloc::vec::Vec;
 
-impl<'t> Tester<'t> {
+/// Linear implementation of all 
+/// the [`Tester`] methods, 
+/// based on parsed [`Tokens`].
+/// 
+/// [`Tester`]: `Tester`
+/// [`Tokens`]: `Tokens`
+impl<'t> Tester<Tokens<'t>> {
     /// Checks if any of possible states of all variables
-    /// in the given expression fails the given expression.
+    /// in the given input expression fails.
     ///
     /// This function returns `true` if all possible states pass
-    /// the given `expr`. And `false` otherwise.
+    /// the given `inp`, and `false` otherwise.
     pub fn passes<'i: 't>(inp: &'i str) -> bool {
         Tester::parse(inp).succeeded()
     }
 
     /// Checks if any of possible states of all variables
-    /// in the given expression passes the given expression.
+    /// in the given input expression passes.
     ///
     /// This function returns `true` if all possible states fail
-    /// the given `expr`. And `false` otherwise.
+    /// the given `inp`, and `false` otherwise.
     pub fn fails<'i: 't>(inp: &'i str) -> bool {
         Tester::parse(inp).failed()
     }

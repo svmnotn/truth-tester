@@ -2,6 +2,12 @@ use super::{Tester, ExprFn};
 use crate::State;
 use rayon::prelude::*;
 
+/// Parallel implementation of all 
+/// the [`Tester`] methods, 
+/// based on an [`ExprFn`].
+/// 
+/// [`Tester`]: `Tester`
+/// [`ExprFn`]: `ExprFn`
 impl<E> Tester<E>
 where
     E: ExprFn + Send + Sync,

@@ -1,32 +1,37 @@
-use super::{Token, Tokens, Tester};
-use crate::State;
+use crate::{Token, Tokens, Tester, State};
 use rayon::prelude::*;
 
+/// Parallel implementation of all 
+/// the [`Tester`] methods, 
+/// based on parsed [`Tokens`].
+/// 
+/// [`Tester`]: `Tester`
+/// [`Tokens`]: `Tokens`
 impl<'t> Tester<'t> {
     /// Checks if any of possible states of all variables
-    /// in the given expression fails the given expression.
+    /// in the given input expression fails.
     ///
     /// This function returns `true` if all possible states pass
-    /// the given `expr`. And `false` otherwise.
+    /// the given `inp`, and `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::passes`]
     /// 
     /// [`Tester::passes`]: `Tester::passes`
-    pub fn passes_par(expr: Tokens<'t>) -> bool {
-        Tester::new(expr).succeeded_par()
+    pub fn passes_par<'i: 't>(inp: &'i str) -> bool {
+        Tester::parse(inp).succeeded_par()
     }
 
     /// Checks if any of possible states of all variables
-    /// in the given expression passes the given expression.
+    /// in the given input expression passes.
     ///
     /// This function returns `true` if all possible states fail
-    /// the given `expr`. And `false` otherwise.
+    /// the given `inp`, and `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::fails`]
     /// 
     /// [`Tester::fails`]: `Tester::fails`
-    pub fn fails_par(expr: Tokens<'t>) -> bool {
-        Tester::new(expr).failed_par()
+    pub fn fails_par<'i: 't>(inp: &'i str) -> bool {
+        Tester::parse(inp).failed_par()
     }
 
     /// This returns `true` iff there are no failures

@@ -1,5 +1,4 @@
 mod linear;
-
 #[cfg(feature = "parallel")]
 mod parallel;
 
@@ -24,11 +23,15 @@ where
     expr: E,
 }
 
-impl<E> Tester<E>
-where
-    E: ExprFn,
-{
-    /// Create a new `Tester`
+/// [`Tester`] based on an [`ExprFn`].
+/// 
+/// [`Tester`]: `Tester`
+/// [`ExprFn`]: `ExprFn`
+impl<E: ExprFn> Tester<E> {
+    /// Create a new [`Tester`] with a given [`ExprFn`].
+    /// 
+    /// [`Tester`]: `Tester`
+    /// [`ExprFn`]: `ExprFn`
     pub fn new(var_count: usize, expr: E) -> Tester<E> {
         Tester {
             state: State::default(var_count),

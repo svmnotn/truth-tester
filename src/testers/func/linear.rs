@@ -1,10 +1,13 @@
 use super::{Tester, ExprFn};
 use crate::State;
 
-impl<E> Tester<E>
-where
-    E: ExprFn,
-{
+/// Linear implementation of all 
+/// the [`Tester`] methods, 
+/// based on an [`ExprFn`].
+/// 
+/// [`Tester`]: `Tester`
+/// [`ExprFn`]: `ExprFn`
+impl<E: ExprFn> Tester<E> {
     /// Checks if any of possible states of the `var_count`
     /// variables fails the given expression.
     ///
