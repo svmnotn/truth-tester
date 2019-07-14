@@ -1,5 +1,5 @@
 /// A full expression, which is made of [`Token`]s
-/// 
+///
 /// [`Token`]: `Token`
 pub type Tokens<'a> = alloc::vec::Vec<Token<'a>>;
 
@@ -47,7 +47,7 @@ pub enum Token<'a> {
 
 impl<'a> Token<'a> {
     /// Determines Operator precedence
-    /// 
+    ///
     /// |   Operator  | Precedence |
     /// | :---------: | :--------: |
     /// |     Not     |     5      |
@@ -56,11 +56,11 @@ impl<'a> Token<'a> {
     /// |      Or     |     2      |
     /// | Implication |     1      |
     /// |  Equality   |     0      |
-    /// 
+    ///
     /// Any [`Token`] that is not an Operator
-    /// has a precedence equal to 
+    /// has a precedence equal to
     /// [`isize::max_value()`].
-    /// 
+    ///
     /// [`Token`]: `Token`
     /// [`isize::max_value()`]: `isize::max_value()`
     pub fn precedence(&self) -> isize {
@@ -79,68 +79,68 @@ impl<'a> Token<'a> {
 /// A list of all possible descriptions
 /// for what each [`Token`] could look like
 /// in an input string
-/// 
+///
 /// [`Token`]: `Token`
 #[derive(Debug)]
 pub struct TokenLiterals<'a> {
     /// An array representing all the forms
     /// that the [`Token::Literal(true)`] value
     /// can take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Literal(true)`]: `Token::Literal`
     pub lit_true: &'a [&'a str],
     /// An array representing all the forms
     /// that the [`Token::Literal(false)`] value
     /// can take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Literal(false)`]: `Token::Literal`
     pub lit_false: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::Not`] token can 
+    /// that the [`Token::Not`] token can
     /// take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Not`]: `Token::Not`
     pub not: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::And`] token can 
+    /// that the [`Token::And`] token can
     /// take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::And`]: `Token::And`
     pub and: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::Xor`] token can take 
+    /// that the [`Token::Xor`] token can take
     /// in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Xor`]: `Token::Xor`
     pub xor: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::Or`] token can 
+    /// that the [`Token::Or`] token can
     /// take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Or`]: `Token::Or`
     pub or: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::Implication`] token 
+    /// that the [`Token::Implication`] token
     /// can take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Implication`]: `Token::Implication`
     pub implication: &'a [&'a str],
     /// An array representing all the forms
-    /// that the [`Token::Equality`] token 
+    /// that the [`Token::Equality`] token
     /// can take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::Equality`]: `Token::Equality`
     pub equality: &'a [&'a str],
     /// An array representing all the forms
-    /// that a [`Token::LParen`] token can 
+    /// that a [`Token::LParen`] token can
     /// take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::LParen`]: `Token::LParen`
     pub left_paren: &'a [&'a str],
     /// An array representing all the forms
-    /// that a [`Token::RParen`] token can 
+    /// that a [`Token::RParen`] token can
     /// take in any given Boolean Expression.
-    /// 
+    ///
     /// [`Token::RParen`]: `Token::RParen`
     pub right_paren: &'a [&'a str],
 }
@@ -161,7 +161,7 @@ pub struct TokenLiterals<'a> {
 ///     right_paren: &[")", "}", "]"],
 /// }
 /// ```
-/// 
+///
 /// [`TokenLiterals`]: `TokenLiterals`
 impl Default for TokenLiterals<'static> {
     fn default() -> Self {

@@ -1,10 +1,13 @@
-use crate::{State, parsing::{Token, Tokens}, Tester};
+use crate::{
+    parsing::{Token, Tokens},
+    State, Tester,
+};
 use alloc::vec::Vec;
 
-/// Linear implementation of all 
-/// the [`Tester`] methods, 
+/// Linear implementation of all
+/// the [`Tester`] methods,
 /// based on parsed [`Tokens`].
-/// 
+///
 /// [`Tester`]: `Tester`
 /// [`Tokens`]: `Tokens`
 impl<'t> Tester<Tokens<'t>> {
@@ -42,12 +45,14 @@ impl<'t> Tester<Tokens<'t>> {
 
     /// Iterate over all the successes in sequence
     pub fn successes<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
-        self.eval().filter_map(|(s, v)| if v == true { Some(s) } else { None })
+        self.eval()
+            .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in sequence
     pub fn failures<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
-        self.eval().filter_map(|(s, v)| if v == false { Some(s) } else { None })
+        self.eval()
+            .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
     /// Evaluate the expression of this [`Tester`]

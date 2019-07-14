@@ -10,7 +10,7 @@
 extern crate alloc;
 
 mod testers;
-pub use testers::{Tester, ExprFn};
+pub use testers::{ExprFn, Tester};
 
 #[cfg(feature = "alloc")]
 pub mod parsing;

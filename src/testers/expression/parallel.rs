@@ -1,10 +1,13 @@
-use crate::{parsing::{Token, Tokens}, Tester, State};
+use crate::{
+    parsing::{Token, Tokens},
+    State, Tester,
+};
 use rayon::prelude::*;
 
-/// Parallel implementation of all 
-/// the [`Tester`] methods, 
+/// Parallel implementation of all
+/// the [`Tester`] methods,
 /// based on parsed [`Tokens`].
-/// 
+///
 /// [`Tester`]: `Tester`
 /// [`Tokens`]: `Tokens`
 impl<'t> Tester<Tokens<'t>> {
@@ -15,7 +18,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// the given `inp`, and `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::passes`]
-    /// 
+    ///
     /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par<'i: 't>(inp: &'i str) -> bool {
         Self::parse(inp).succeeded_par()
@@ -28,7 +31,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// the given `inp`, and `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::fails`]
-    /// 
+    ///
     /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par<'i: 't>(inp: &'i str) -> bool {
         Self::parse(inp).failed_par()
@@ -37,7 +40,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// This returns `true` iff there are no failures
     ///
     /// This function is the parallel version of [`Tester::succeeded`]
-    /// 
+    ///
     /// [`Tester::succeeded`]: `Tester::succeeded`
     pub fn succeeded_par(&self) -> bool {
         self.failures_par().any(|_| true) == false
@@ -46,7 +49,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// This returns `true` iff there are no sucesses
     ///
     /// This function is the parallel version of [`Tester::failed`]
-    /// 
+    ///
     /// [`Tester::failed`]: `Tester::failed`
     pub fn failed_par(&self) -> bool {
         self.successes_par().any(|_| true) == false
@@ -57,32 +60,34 @@ impl<'t> Tester<Tokens<'t>> {
     }
 
     /// Iterate over all the successes in parallel
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::successes`]
-    /// 
+    ///
     /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
-        self.eval_par().filter_map(|(s, v)| if v == true { Some(s) } else { None })
+        self.eval_par()
+            .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in parallel
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::failures`]
-    /// 
+    ///
     /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
-        self.eval_par().filter_map(|(s, v)| if v == false { Some(s) } else { None })
+        self.eval_par()
+            .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
     /// Evaluate the expression of this [`Tester`]
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::eval`]
-    /// 
+    ///
     /// [`Tester::eval`]: `Tester::eval`
     pub fn eval_par<'b>(&'b self) -> impl ParallelIterator<Item = (State, bool)> + 'b {
         self.iterations_par().map(move |iter| {
-            use Token::*;
             use alloc::vec::Vec;
+            use Token::*;
 
             let state = self.state.iterate(iter);
             let mut stack: Vec<bool> = Vec::new();

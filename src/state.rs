@@ -5,12 +5,12 @@ use bit_field::BitField;
 use crate::Tester;
 
 /// The state of a [`Tester`]
-/// 
+///
 /// Oversized to contain the maximum amount of variables possible
 /// in the architecture (32 in 32-bit, 64 in 64-bit).
 ///
 /// This is due to the variables being solely stored inside a [`usize`]
-/// 
+///
 /// [`Tester`]: `Tester`
 /// [`usize`]: `usize`
 #[derive(Clone, Copy)]

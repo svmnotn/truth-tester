@@ -15,7 +15,7 @@ pub struct Lexer<'t, 'l, 'i: 't> {
 impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
     /// Create a Lexer using the Default
     /// [`TokenLiterals`].
-    /// 
+    ///
     /// [`TokenLiterals`]: `TokenLiterals`
     pub fn lex(input: &'i str) -> Self {
         let mut input = input.split_whitespace().peekable();
@@ -32,7 +32,7 @@ impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
 
 impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
     /// Create a Lexer with the given [`TokenLiterals`]
-    /// 
+    ///
     /// [`TokenLiterals`]: `TokenLiterals`
     pub fn lex_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
         let mut input = input.split_whitespace().peekable();

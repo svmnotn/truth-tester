@@ -1,10 +1,10 @@
-use crate::{Tester, ExprFn, State};
+use crate::{ExprFn, State, Tester};
 use rayon::prelude::*;
 
-/// Parallel implementation of all 
-/// the [`Tester`] methods, 
+/// Parallel implementation of all
+/// the [`Tester`] methods,
 /// based on an [`ExprFn`].
-/// 
+///
 /// [`Tester`]: `Tester`
 /// [`ExprFn`]: `ExprFn`
 impl<E> Tester<E>
@@ -18,7 +18,7 @@ where
     /// the given `expr`. And `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::passes`]
-    /// 
+    ///
     /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par(var_count: usize, expr: E) -> bool {
         Self::new(var_count, expr).succeeded_par()
@@ -31,7 +31,7 @@ where
     /// the given `expr`. And `false` otherwise.
     ///
     /// This function is the parallel version of [`Tester::fails`]
-    /// 
+    ///
     /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par(var_count: usize, expr: E) -> bool {
         Self::new(var_count, expr).failed_par()
@@ -40,7 +40,7 @@ where
     /// This returns `true` iff there are no failures
     ///
     /// This function is the parallel version of [`Tester::succeeded`]
-    /// 
+    ///
     /// [`Tester::succeeded`]: `Tester::succeeded`
     pub fn succeeded_par(&self) -> bool {
         self.failures_par().any(|_| true) == false
@@ -49,7 +49,7 @@ where
     /// This returns `true` iff there are no sucesses
     ///
     /// This function is the parallel version of [`Tester::failed`]
-    /// 
+    ///
     /// [`Tester::failed`]: `Tester::failed`
     pub fn failed_par(&self) -> bool {
         self.successes_par().any(|_| true) == false
@@ -60,27 +60,29 @@ where
     }
 
     /// Iterate over all the successes in parallel
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::successes`]
-    /// 
+    ///
     /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
-        self.eval_par().filter_map(|(s, v)| if v == true { Some(s) } else { None })
+        self.eval_par()
+            .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in parallel
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::failures`]
-    /// 
+    ///
     /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
-        self.eval_par().filter_map(|(s, v)| if v == false { Some(s) } else { None })
+        self.eval_par()
+            .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
     /// Evaluate the expression of this [`Tester`]
-    /// 
+    ///
     /// This function is the parallel version of [`Tester::eval`]
-    /// 
+    ///
     /// [`Tester::eval`]: `Tester::eval`
     fn eval_par<'a>(&'a self) -> impl ParallelIterator<Item = (State, bool)> + 'a {
         self.iterations_par().map(move |iter| {

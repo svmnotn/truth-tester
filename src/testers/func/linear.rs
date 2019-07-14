@@ -1,9 +1,9 @@
-use crate::{Tester, ExprFn, State};
+use crate::{ExprFn, State, Tester};
 
-/// Linear implementation of all 
-/// the [`Tester`] methods, 
+/// Linear implementation of all
+/// the [`Tester`] methods,
 /// based on an [`ExprFn`].
-/// 
+///
 /// [`Tester`]: `Tester`
 /// [`ExprFn`]: `ExprFn`
 impl<E: ExprFn> Tester<E> {
@@ -41,12 +41,14 @@ impl<E: ExprFn> Tester<E> {
 
     /// Iterate over all the successes in sequence
     pub fn successes<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
-        self.eval().filter_map(|(s, v)| if v == true { Some(s) } else { None })
+        self.eval()
+            .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in sequence
     pub fn failures<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
-        self.eval().filter_map(|(s, v)| if v == false { Some(s) } else { None })
+        self.eval()
+            .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
     /// Evaluate the expression of this [`Tester`]
