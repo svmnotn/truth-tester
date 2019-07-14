@@ -26,14 +26,16 @@
 <span id="26">26</span>
 <span id="27">27</span>
 <span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">mod</span> <span class="ident">func</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">func</span>::<span class="ident">ExprFn</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">expression</span>;
-
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">parsing</span>::<span class="ident">Tokens</span>, <span class="ident">State</span>};
 
 <span class="doccomment">/// A Trait representing all possible</span>
 <span class="doccomment">/// types that can hold an Expression</span>
@@ -42,9 +44,15 @@
 <span class="doccomment">/// [`Tester`]: `Tester`</span>
 <span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">Expression</span> {}
 
+<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">ExprFn</span><span class="op">&gt;</span> <span class="ident">Expression</span> <span class="kw">for</span> <span class="ident">E</span> {}
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">parsing</span>::<span class="ident">Tokens</span>;
+
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Expression</span> <span class="kw">for</span> <span class="ident">Tokens</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {}
-<span class="kw">impl</span><span class="op">&lt;</span><span class="ident">E</span>: <span class="ident">ExprFn</span><span class="op">&gt;</span> <span class="ident">Expression</span> <span class="kw">for</span> <span class="ident">E</span> {}
+
+<span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">State</span>;
 
 <span class="doccomment">/// A struct used to store both</span>
 <span class="doccomment">/// the user given expression,</span>

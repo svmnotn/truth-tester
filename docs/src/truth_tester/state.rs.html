@@ -65,6 +65,14 @@
 <span id="65">65</span>
 <span id="66">66</span>
 <span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="ident">bit_field</span>::<span class="ident">BitField</span>;
 <span class="comment">// This is an import for the sake</span>
@@ -88,7 +96,9 @@
 }
 
 <span class="kw">impl</span> <span class="ident">State</span> {
-    <span class="doccomment">/// Create a new `State`</span>
+    <span class="doccomment">/// Create a new [`State`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`State`]: `State`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">default</span>(<span class="ident">var_count</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="comment">// Make sure that we will not overflow</span>
         <span class="macro">assert</span><span class="macro">!</span>(
@@ -99,7 +109,9 @@
         <span class="self">Self</span> { <span class="ident">vars</span>: <span class="number">0</span>, <span class="ident">var_count</span> }
     }
 
-    <span class="doccomment">/// Return the state at `iter`</span>
+    <span class="doccomment">/// Return the [`State`] at `iter`</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`State`]: `State`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">iterate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">iteration</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="comment">// because we use an unsingned integer to store</span>
         <span class="comment">// our bit values, every iteration represents a</span>
@@ -116,19 +128,23 @@
     <span class="doccomment">/// This method will panic if `idx` &gt;= `Self::var_count()`.</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">var_at</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">idx</span>: <span class="ident">usize</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
         <span class="macro">assert</span><span class="macro">!</span>(
-            <span class="ident">idx</span> <span class="op">&lt;=</span> <span class="self">self</span>.<span class="ident">var_count</span>(),
+            <span class="ident">idx</span> <span class="op">&lt;=</span> <span class="self">self</span>.<span class="ident">var_count</span>,
             <span class="string">&quot;`idx` can not be greater than that amount of variables&quot;</span>
         );
 
         <span class="self">self</span>.<span class="ident">vars</span>.<span class="ident">get_bit</span>(<span class="ident">idx</span>)
     }
 
-    <span class="doccomment">/// How many variables are managed by this `State`?</span>
+    <span class="doccomment">/// How many variables are managed by this [`State`]?</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`State`]: `State`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">var_count</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="self">self</span>.<span class="ident">var_count</span>
     }
 
-    <span class="doccomment">/// How many iterations can be handled by this `State`?</span>
+    <span class="doccomment">/// How many iterations can be handled by this [`State`]?</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`State`]: `State`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">max_iters</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">usize</span> {
         <span class="number">1</span> <span class="op">&lt;&lt;</span> <span class="self">self</span>.<span class="ident">var_count</span>
     }
