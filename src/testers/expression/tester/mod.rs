@@ -1,4 +1,3 @@
-//! Here be the Boolean Expression Tester
 mod linear;
 #[cfg(feature = "parallel")]
 mod parallel;
@@ -13,7 +12,8 @@ pub struct Tester<'t> {
 }
 
 impl<'t> Tester<'t> {
-    pub fn parse<'i: 't>(inp: &'i str) -> Tester<'t> {
+    /// parse the given input into a `Tester`
+    pub fn parse<'i: 't>(inp: &'i str) -> Self {
         let mut expr = Parser::new(inp).shunting_yard();
         if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
             Tester {
@@ -25,7 +25,7 @@ impl<'t> Tester<'t> {
         }
     }
 
-    /// Create a new `Tester`
+    /// Create a new `Tester` from the given vector of `Token`s
     pub fn new(mut expr: Vec<Token<'t>>) -> Self {
         if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
             Tester {

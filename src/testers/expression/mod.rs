@@ -1,4 +1,3 @@
-//! Here be all the Boolean Expression related things
 mod lexer;
 mod parser;
 mod tester;

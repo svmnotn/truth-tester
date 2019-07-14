@@ -5,6 +5,8 @@ mod parallel;
 
 use crate::State;
 
+/// Use this type to test any function
+/// of the form `fn(&State) -> bool`
 pub struct Tester<E>
 where
     E: Fn(&State) -> bool,
@@ -23,9 +25,5 @@ where
             state: State::default(var_count),
             expr,
         }
-    }
-
-    pub fn var_count(&self) -> usize {
-        self.state.var_count()
     }
 }

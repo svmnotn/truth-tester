@@ -3,9 +3,6 @@ use alloc::collections::btree_map::BTreeMap;
 use core::{iter::Peekable, str::SplitWhitespace};
 
 /// Boolean Expression Lexer
-///
-/// Currently it requires the input to have each part
-/// be separated by whitespace.
 #[derive(Debug)]
 pub struct Lexer<'t, 'l, 'i: 't> {
     literals: TokenLiterals<'l>,
@@ -17,7 +14,9 @@ pub struct Lexer<'t, 'l, 'i: 't> {
 
 impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
     /// Create a Lexer using the Default
-    /// `TokenLiterals`
+    /// [`TokenLiterals`].
+    /// 
+    /// [`TokenLiterals`]: `TokenLiterals`
     pub fn new(input: &'i str) -> Self {
         let mut input = input.split_whitespace().peekable();
         let curr_str = input.next().unwrap_or("");
@@ -32,7 +31,9 @@ impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
 }
 
 impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
-    /// Create a Lexer with the given `TokenLiterals`
+    /// Create a Lexer with the given [`TokenLiterals`]
+    /// 
+    /// [`TokenLiterals`]: `TokenLiterals`
     pub fn new_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
         let mut input = input.split_whitespace().peekable();
         let curr_str = input.next().unwrap_or("");
@@ -81,12 +82,12 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
             let mut found_val_len = 0;
 
             for i in 0..self.curr_str.len() {
-                if let Some(s) = find(&self.curr_str[i..], self.literals.literal_false) {
+                if let Some(s) = find(&self.curr_str[i..], self.literals.lit_false) {
                     found_idx = i;
                     found_val = Some(Literal(false));
                     found_val_len = s.len();
                     break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.literal_true) {
+                } else if let Some(s) = find(&self.curr_str[i..], self.literals.lit_true) {
                     found_idx = i;
                     found_val = Some(Literal(true));
                     found_val_len = s.len();

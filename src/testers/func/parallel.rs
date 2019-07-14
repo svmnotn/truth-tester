@@ -12,7 +12,9 @@ where
     /// This function returns `true` if all possible states pass
     /// the given `expr`. And `false` otherwise.
     ///
-    /// This function is the parallel version of `Tester::passes`
+    /// This function is the parallel version of [`Tester::passes`]
+    /// 
+    /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par(var_count: usize, expr: E) -> bool {
         Tester::new(var_count, expr).succeeded_par()
     }
@@ -23,21 +25,27 @@ where
     /// This function returns `true` if all possible states fail
     /// the given `expr`. And `false` otherwise.
     ///
-    /// This function is the parallel version of `Tester::fails`
+    /// This function is the parallel version of [`Tester::fails`]
+    /// 
+    /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par(var_count: usize, expr: E) -> bool {
         Tester::new(var_count, expr).failed_par()
     }
 
     /// This returns `true` iff there are no failures
     ///
-    /// This function is the parallel version of `Tester::succeeded`
+    /// This function is the parallel version of [`Tester::succeeded`]
+    /// 
+    /// [`Tester::succeeded`]: `Tester::succeeded`
     pub fn succeeded_par(&self) -> bool {
         !self.failures_par().any(|_| true)
     }
 
     /// This returns `true` iff there are no sucesses
     ///
-    /// This function is the parallel version of `Tester::failed`
+    /// This function is the parallel version of [`Tester::failed`]
+    /// 
+    /// [`Tester::failed`]: `Tester::failed`
     pub fn failed_par(&self) -> bool {
         !self.successes_par().any(|_| true)
     }
@@ -47,11 +55,19 @@ where
     }
 
     /// Iterate over all the successes in parallel
+    /// 
+    /// This function is the parallel version of [`Tester::successes`]
+    /// 
+    /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
         self.test_par(true)
     }
 
     /// Iterate over all the failures in parallel
+    /// 
+    /// This function is the parallel version of [`Tester::failures`]
+    /// 
+    /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
         self.test_par(false)
     }
@@ -68,6 +84,10 @@ where
     }
 
     /// Get the full truth table
+    /// 
+    /// This function is the parallel version of [`Tester::all`]
+    /// 
+    /// [`Tester::all`]: `Tester::all`
     #[cfg(feature = "alloc")]
     pub fn all_par(&self) -> alloc::vec::Vec<(State, bool)> {
         self.iterations_par()
@@ -79,13 +99,23 @@ where
             .collect()
     }
 
-    /// Get the full truth table
+    /// Get a table of all states where 
+    /// the `expr` succeeds.
+    /// 
+    /// This function is the parallel version of [`Tester::all_successes`]
+    /// 
+    /// [`Tester::all_successes`]: `Tester::all_successes`
     #[cfg(feature = "alloc")]
     pub fn all_successes_par(&self) -> alloc::vec::Vec<State> {
         self.successes_par().collect()
     }
 
-    /// Get the full truth table
+    /// Get a table of all states where 
+    /// the `expr` fails.
+    /// 
+    /// This function is the parallel version of [`Tester::all_failures`]
+    /// 
+    /// [`Tester::all_failures`]: `Tester::all_failures`
     #[cfg(feature = "alloc")]
     pub fn all_failures_par(&self) -> alloc::vec::Vec<State> {
         self.failures_par().collect()

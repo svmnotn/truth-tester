@@ -1,4 +1,4 @@
-use super::{super::tokens::Token, Tester};
+use super::{Token, Tester};
 use crate::State;
 use alloc::vec::Vec;
 

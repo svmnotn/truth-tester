@@ -10,7 +10,9 @@ impl<'t> Tester<'t> {
     /// This function returns `true` if all possible states pass
     /// the given `expr`. And `false` otherwise.
     ///
-    /// This function is the parallel version of `Tester::passes`
+    /// This function is the parallel version of [`Tester::passes`]
+    /// 
+    /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par(expr: Vec<Token<'t>>) -> bool {
         Tester::new(expr).succeeded_par()
     }
@@ -21,21 +23,27 @@ impl<'t> Tester<'t> {
     /// This function returns `true` if all possible states fail
     /// the given `expr`. And `false` otherwise.
     ///
-    /// This function is the parallel version of `Tester::fails`
+    /// This function is the parallel version of [`Tester::fails`]
+    /// 
+    /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par(expr: Vec<Token<'t>>) -> bool {
         Tester::new(expr).failed_par()
     }
 
     /// This returns `true` iff there are no failures
     ///
-    /// This function is the parallel version of `Tester::succeeded`
+    /// This function is the parallel version of [`Tester::succeeded`]
+    /// 
+    /// [`Tester::succeeded`]: `Tester::succeeded`
     pub fn succeeded_par(&self) -> bool {
         !self.failures_par().any(|_| true)
     }
 
     /// This returns `true` iff there are no sucesses
     ///
-    /// This function is the parallel version of `Tester::failed`
+    /// This function is the parallel version of [`Tester::failed`]
+    /// 
+    /// [`Tester::failed`]: `Tester::failed`
     pub fn failed_par(&self) -> bool {
         !self.successes_par().any(|_| true)
     }
@@ -45,11 +53,19 @@ impl<'t> Tester<'t> {
     }
 
     /// Iterate over all the successes in parallel
+    /// 
+    /// This function is the parallel version of [`Tester::successes`]
+    /// 
+    /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
         self.test_par(true)
     }
 
     /// Iterate over all the failures in parallel
+    /// 
+    /// This function is the parallel version of [`Tester::failures`]
+    /// 
+    /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
         self.test_par(false)
     }

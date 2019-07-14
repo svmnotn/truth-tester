@@ -70,13 +70,15 @@ where
             .collect()
     }
 
-    /// Get the full truth table
+    /// Get a table of all states where 
+    /// the `expr` succeeds.
     #[cfg(feature = "alloc")]
     pub fn all_successes(&self) -> alloc::vec::Vec<State> {
         self.successes().collect()
     }
 
-    /// Get the full truth table
+    /// Get a table of all states where 
+    /// the `expr` fails.
     #[cfg(feature = "alloc")]
     pub fn all_failures(&self) -> alloc::vec::Vec<State> {
         self.failures().collect()
