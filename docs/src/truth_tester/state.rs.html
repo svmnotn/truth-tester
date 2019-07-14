@@ -73,12 +73,12 @@
 <span class="kw">use</span> <span class="kw">crate</span>::<span class="ident">Tester</span>;
 
 <span class="doccomment">/// The state of a [`Tester`]</span>
-<span class="doccomment">/// </span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// Oversized to contain the maximum amount of variables possible</span>
 <span class="doccomment">/// in the architecture (32 in 32-bit, 64 in 64-bit).</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// This is due to the variables being solely stored inside a [`usize`]</span>
-<span class="doccomment">/// </span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// [`Tester`]: `Tester`</span>
 <span class="doccomment">/// [`usize`]: `usize`</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>)]</span>
@@ -96,7 +96,7 @@
             <span class="string">&quot;Cannot have more variables than the width of a pointer&quot;</span>
         );
 
-        <span class="ident">State</span> { <span class="ident">vars</span>: <span class="number">0</span>, <span class="ident">var_count</span> }
+        <span class="self">Self</span> { <span class="ident">vars</span>: <span class="number">0</span>, <span class="ident">var_count</span> }
     }
 
     <span class="doccomment">/// Return the state at `iter`</span>

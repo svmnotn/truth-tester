@@ -181,7 +181,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Lexer</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;static</span>, <span class="lifetime">&#39;i</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a Lexer using the Default</span>
     <span class="doccomment">/// [`TokenLiterals`].</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`TokenLiterals`]: `TokenLiterals`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lex</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">split_whitespace</span>().<span class="ident">peekable</span>();
@@ -198,7 +198,7 @@
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;l</span>, <span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Lexer</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;l</span>, <span class="lifetime">&#39;i</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a Lexer with the given [`TokenLiterals`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`TokenLiterals`]: `TokenLiterals`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">lex_with_literals</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>, <span class="ident">literals</span>: <span class="ident">TokenLiterals</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">input</span> <span class="op">=</span> <span class="ident">input</span>.<span class="ident">split_whitespace</span>().<span class="ident">peekable</span>();

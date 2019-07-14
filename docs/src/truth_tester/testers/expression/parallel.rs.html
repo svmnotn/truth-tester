@@ -150,14 +150,23 @@
 <span id="150">150</span>
 <span id="151">151</span>
 <span id="152">152</span>
+<span id="153">153</span>
+<span id="154">154</span>
+<span id="155">155</span>
+<span id="156">156</span>
+<span id="157">157</span>
+<span id="158">158</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">crate</span>::{<span class="ident">parsing</span>::{<span class="ident">Token</span>, <span class="ident">Tokens</span>}, <span class="ident">Tester</span>, <span class="ident">State</span>};
+<span class="kw">use</span> <span class="kw">crate</span>::{
+    <span class="ident">parsing</span>::{<span class="ident">Token</span>, <span class="ident">Tokens</span>},
+    <span class="ident">State</span>, <span class="ident">Tester</span>,
+};
 <span class="kw">use</span> <span class="ident">rayon</span>::<span class="ident">prelude</span>::<span class="kw-2">*</span>;
 
-<span class="doccomment">/// Parallel implementation of all </span>
-<span class="doccomment">/// the [`Tester`] methods, </span>
+<span class="doccomment">/// Parallel implementation of all</span>
+<span class="doccomment">/// the [`Tester`] methods,</span>
 <span class="doccomment">/// based on parsed [`Tokens`].</span>
-<span class="doccomment">/// </span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// [`Tester`]: `Tester`</span>
 <span class="doccomment">/// [`Tokens`]: `Tokens`</span>
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Tester</span><span class="op">&lt;</span><span class="ident">Tokens</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span><span class="op">&gt;&gt;</span> {
@@ -168,10 +177,10 @@
     <span class="doccomment">/// the given `inp`, and `false` otherwise.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::passes`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::passes`]: `Tester::passes`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">passes_par</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="ident">inp</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">Tester</span>::<span class="ident">parse</span>(<span class="ident">inp</span>).<span class="ident">succeeded_par</span>()
+        <span class="self">Self</span>::<span class="ident">parse</span>(<span class="ident">inp</span>).<span class="ident">succeeded_par</span>()
     }
 
     <span class="doccomment">/// Checks if any of possible states of all variables</span>
@@ -181,28 +190,28 @@
     <span class="doccomment">/// the given `inp`, and `false` otherwise.</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::fails`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::fails`]: `Tester::fails`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">fails_par</span><span class="op">&lt;</span><span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span>(<span class="ident">inp</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="ident">Tester</span>::<span class="ident">parse</span>(<span class="ident">inp</span>).<span class="ident">failed_par</span>()
+        <span class="self">Self</span>::<span class="ident">parse</span>(<span class="ident">inp</span>).<span class="ident">failed_par</span>()
     }
 
     <span class="doccomment">/// This returns `true` iff there are no failures</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::succeeded`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::succeeded`]: `Tester::succeeded`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">succeeded_par</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="op">!</span><span class="self">self</span>.<span class="ident">failures_par</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">true</span>)
+        <span class="self">self</span>.<span class="ident">failures_par</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">true</span>) <span class="op">==</span> <span class="bool-val">false</span>
     }
 
     <span class="doccomment">/// This returns `true` iff there are no sucesses</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::failed`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::failed`]: `Tester::failed`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">failed_par</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">bool</span> {
-        <span class="op">!</span><span class="self">self</span>.<span class="ident">successes_par</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">true</span>)
+        <span class="self">self</span>.<span class="ident">successes_par</span>().<span class="ident">any</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="bool-val">true</span>) <span class="op">==</span> <span class="bool-val">false</span>
     }
 
     <span class="kw">fn</span> <span class="ident">iterations_par</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">usize</span><span class="op">&gt;</span> {
@@ -210,27 +219,34 @@
     }
 
     <span class="doccomment">/// Iterate over all the successes in parallel</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::successes`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::successes`]: `Tester::successes`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">successes_par</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;b</span> {
-        <span class="self">self</span>.<span class="ident">test_par</span>(<span class="bool-val">true</span>)
+        <span class="self">self</span>.<span class="ident">eval_par</span>()
+            .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">s</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="bool-val">true</span> { <span class="prelude-val">Some</span>(<span class="ident">s</span>) } <span class="kw">else</span> { <span class="prelude-val">None</span> })
     }
 
     <span class="doccomment">/// Iterate over all the failures in parallel</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// This function is the parallel version of [`Tester::failures`]</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`Tester::failures`]: `Tester::failures`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">failures_par</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;b</span> {
-        <span class="self">self</span>.<span class="ident">test_par</span>(<span class="bool-val">false</span>)
+        <span class="self">self</span>.<span class="ident">eval_par</span>()
+            .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">s</span>, <span class="ident">v</span>)<span class="op">|</span> <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="bool-val">false</span> { <span class="prelude-val">Some</span>(<span class="ident">s</span>) } <span class="kw">else</span> { <span class="prelude-val">None</span> })
     }
 
-    <span class="kw">fn</span> <span class="ident">test_par</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>, <span class="ident">test</span>: <span class="ident">bool</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="ident">State</span><span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;b</span> {
-        <span class="self">self</span>.<span class="ident">iterations_par</span>().<span class="ident">filter_map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">iter</span><span class="op">|</span> {
-            <span class="kw">use</span> <span class="ident">Token</span>::<span class="kw-2">*</span>;
+    <span class="doccomment">/// Evaluate the expression of this [`Tester`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// This function is the parallel version of [`Tester::eval`]</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// [`Tester::eval`]: `Tester::eval`</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">eval_par</span><span class="op">&lt;</span><span class="lifetime">&#39;b</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;b</span> <span class="self">self</span>) <span class="op">-&gt;</span> <span class="kw">impl</span> <span class="ident">ParallelIterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> (<span class="ident">State</span>, <span class="ident">bool</span>)<span class="op">&gt;</span> <span class="op">+</span> <span class="lifetime">&#39;b</span> {
+        <span class="self">self</span>.<span class="ident">iterations_par</span>().<span class="ident">map</span>(<span class="kw">move</span> <span class="op">|</span><span class="ident">iter</span><span class="op">|</span> {
             <span class="kw">use</span> <span class="ident">alloc</span>::<span class="ident">vec</span>::<span class="ident">Vec</span>;
+            <span class="kw">use</span> <span class="ident">Token</span>::<span class="kw-2">*</span>;
 
             <span class="kw">let</span> <span class="ident">state</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">state</span>.<span class="ident">iterate</span>(<span class="ident">iter</span>);
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
@@ -292,13 +308,9 @@
             }
 
             <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">v</span>) <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">pop</span>() {
-                <span class="kw">if</span> <span class="ident">v</span> <span class="op">==</span> <span class="ident">test</span> {
-                    <span class="prelude-val">Some</span>(<span class="ident">state</span>)
-                } <span class="kw">else</span> {
-                    <span class="prelude-val">None</span>
-                }
+                (<span class="ident">state</span>, <span class="ident">v</span>)
             } <span class="kw">else</span> {
-                <span class="prelude-val">None</span>
+                <span class="macro">unreachable</span><span class="macro">!</span>()
             }
         })
     }

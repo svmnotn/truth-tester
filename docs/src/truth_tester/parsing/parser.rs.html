@@ -89,7 +89,7 @@
 <span id="89">89</span>
 <span id="90">90</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Lexer</span>, <span class="ident">Tokens</span>, <span class="ident">Token</span>, <span class="ident">TokenLiterals</span>};
+<span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Lexer</span>, <span class="ident">Token</span>, <span class="ident">TokenLiterals</span>, <span class="ident">Tokens</span>};
 <span class="kw">use</span> <span class="ident">alloc</span>::<span class="ident">vec</span>::<span class="ident">Vec</span>;
 
 <span class="doccomment">/// Boolean Expression Parser</span>
@@ -101,7 +101,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;static</span>, <span class="lifetime">&#39;i</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new Parser with the</span>
     <span class="doccomment">/// Default [`TokenLiterals`].</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`TokenLiterals`]: `TokenLiterals`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
@@ -113,7 +113,7 @@
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;l</span>, <span class="lifetime">&#39;i</span>: <span class="lifetime">&#39;t</span><span class="op">&gt;</span> <span class="ident">Parser</span><span class="op">&lt;</span><span class="lifetime">&#39;t</span>, <span class="lifetime">&#39;l</span>, <span class="lifetime">&#39;i</span><span class="op">&gt;</span> {
     <span class="doccomment">/// Create a new Parser with the given</span>
     <span class="doccomment">/// [`TokenLiterals`].</span>
-    <span class="doccomment">/// </span>
+    <span class="doccomment">///</span>
     <span class="doccomment">/// [`TokenLiterals`]: `TokenLiterals`</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">parse_with_literals</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;i</span> <span class="ident">str</span>, <span class="ident">literals</span>: <span class="ident">TokenLiterals</span><span class="op">&lt;</span><span class="lifetime">&#39;l</span><span class="op">&gt;</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="self">Self</span> {
