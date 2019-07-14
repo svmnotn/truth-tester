@@ -1,7 +1,30 @@
 /// A full expression, which is made of [`Token`]s
 ///
 /// [`Token`]: `Token`
-pub type Tokens<'a> = alloc::vec::Vec<Token<'a>>;
+pub struct Tokens<'a> {
+    pub(super) toks: alloc::vec::Vec<Token<'a>>,
+    pub(super) var_map: alloc::vec::Vec<&'a str>,
+    pub(super) var_count: usize,
+}
+
+impl<'a> Tokens<'a> {
+    /// Return an iterator over all the [`Token`]s in the expression
+    ///
+    /// [`Token`]: `Token`
+    pub fn tokens(&self) -> impl Iterator<Item = &Token<'a>> {
+        self.toks.iter()
+    }
+
+    /// Return the name of the `idx` variable in the expression
+    pub fn var_at(&self, idx: usize) -> &str {
+        self.var_map[idx]
+    }
+
+    /// Return the amount of variables in the expression
+    pub fn var_count(&self) -> usize {
+        self.var_count
+    }
+}
 
 /// All the possible supported tokens in a
 /// Boolean Expression

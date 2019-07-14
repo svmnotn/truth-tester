@@ -1,5 +1,5 @@
 use super::{Token, TokenLiterals};
-use alloc::collections::btree_map::BTreeMap;
+use alloc::{collections::btree_map::BTreeMap, vec::Vec};
 use core::{iter::Peekable, str::SplitWhitespace};
 
 /// Boolean Expression Lexer
@@ -44,6 +44,10 @@ impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
             var_map: BTreeMap::new(),
             finished: false,
         }
+    }
+
+    pub(crate) fn var_map(&self) -> Vec<&'t str> {
+        self.var_map.iter().map(|(name, _)| *name).collect()
     }
 }
 

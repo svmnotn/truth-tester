@@ -20,7 +20,9 @@ pub struct State {
 }
 
 impl State {
-    /// Create a new `State`
+    /// Create a new [`State`]
+    ///
+    /// [`State`]: `State`
     pub fn default(var_count: usize) -> Self {
         // Make sure that we will not overflow
         assert!(
@@ -31,7 +33,9 @@ impl State {
         Self { vars: 0, var_count }
     }
 
-    /// Return the state at `iter`
+    /// Return the [`State`] at `iter`
+    ///
+    /// [`State`]: `State`
     pub fn iterate(&self, iteration: usize) -> Self {
         // because we use an unsingned integer to store
         // our bit values, every iteration represents a
@@ -48,19 +52,23 @@ impl State {
     /// This method will panic if `idx` >= `Self::var_count()`.
     pub fn var_at(&self, idx: usize) -> bool {
         assert!(
-            idx <= self.var_count(),
+            idx <= self.var_count,
             "`idx` can not be greater than that amount of variables"
         );
 
         self.vars.get_bit(idx)
     }
 
-    /// How many variables are managed by this `State`?
+    /// How many variables are managed by this [`State`]?
+    ///
+    /// [`State`]: `State`
     pub fn var_count(&self) -> usize {
         self.var_count
     }
 
-    /// How many iterations can be handled by this `State`?
+    /// How many iterations can be handled by this [`State`]?
+    ///
+    /// [`State`]: `State`
     pub fn max_iters(&self) -> usize {
         1 << self.var_count
     }

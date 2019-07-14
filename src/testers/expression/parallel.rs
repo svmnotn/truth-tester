@@ -92,7 +92,7 @@ impl<'t> Tester<Tokens<'t>> {
             let state = self.state.iterate(iter);
             let mut stack: Vec<bool> = Vec::new();
             // turn the expression into a single value
-            for t in &self.expr {
+            for t in self.expr.tokens() {
                 match *t {
                     // Values can go directly to the stack
                     Var(_, v) => stack.push(state.var_at(v)),

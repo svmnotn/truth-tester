@@ -33,15 +33,15 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
     /// Run the Shunting Yard algorithm on the input
     pub fn shunting_yard(&mut self) -> Tokens<'t> {
         use Token::*;
-        let mut out: Vec<Token> = Vec::new();
+        let mut toks: Vec<Token> = Vec::new();
         let mut stack: Vec<Token> = Vec::new();
         let mut var_count = 0;
 
         while let Some(t) = self.lexer.next() {
             match t {
                 // Values can go directly to the output
-                Var(s, v) => out.push(Var(s, v)),
-                Literal(v) => out.push(Literal(v)),
+                Var(s, v) => toks.push(Var(s, v)),
+                Literal(v) => toks.push(Literal(v)),
                 // Parens mess mostly with the stack
                 LParen => stack.push(LParen),
                 RParen => {
@@ -52,7 +52,7 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
                             break;
                         }
 
-                        out.push(tok);
+                        toks.push(tok);
                     }
 
                     if found == false {
@@ -66,7 +66,7 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
                 t => {
                     while let Some(tok) = stack.pop() {
                         if tok.precedence() > t.precedence() {
-                            out.push(tok);
+                            toks.push(tok);
                         } else {
                             stack.push(tok);
                             break;
@@ -81,10 +81,13 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
             if t == LParen || t == RParen {
                 panic!("Mismached Parens!");
             }
-            out.push(t);
+            toks.push(t);
         }
 
-        out.push(EOF(var_count));
-        out
+        Tokens {
+            toks,
+            var_map: self.lexer.var_map(),
+            var_count,
+        }
     }
 }

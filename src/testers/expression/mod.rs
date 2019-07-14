@@ -3,7 +3,7 @@ mod linear;
 mod parallel;
 
 use crate::{
-    parsing::{Parser, Token, TokenLiterals, Tokens},
+    parsing::{Parser, TokenLiterals, Tokens},
     State, Tester,
 };
 
@@ -16,14 +16,10 @@ impl<'t> Tester<Tokens<'t>> {
     ///
     /// [`Tester`]: `Tester`
     pub fn parse<'i: 't>(inp: &'i str) -> Self {
-        let mut expr = Parser::parse(inp).shunting_yard();
-        if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
-            Self {
-                state: State::default(var_count),
-                expr,
-            }
-        } else {
-            panic!("Last token was not EOF");
+        let expr = Parser::parse(inp).shunting_yard();
+        Self {
+            state: State::default(expr.var_count()),
+            expr,
         }
     }
 
@@ -32,14 +28,10 @@ impl<'t> Tester<Tokens<'t>> {
     /// [`Tester`]: `Tester`
     /// [`TokenLiterals`]: `TokenLiterals`
     pub fn parse_with_literals<'l, 'i: 't>(inp: &'i str, literals: TokenLiterals<'l>) -> Self {
-        let mut expr = Parser::parse_with_literals(inp, literals).shunting_yard();
-        if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
-            Self {
-                state: State::default(var_count),
-                expr,
-            }
-        } else {
-            panic!("Last token was not EOF");
+        let expr = Parser::parse_with_literals(inp, literals).shunting_yard();
+        Self {
+            state: State::default(expr.var_count()),
+            expr,
         }
     }
 
@@ -47,14 +39,18 @@ impl<'t> Tester<Tokens<'t>> {
     ///
     /// [`Tester`]: `Tester`
     /// [`Tokens`]: `Tokens`
-    pub fn with_tokens(mut expr: Tokens<'t>) -> Self {
-        if let Token::EOF(var_count) = expr.pop().expect("Expected a non-empty expression") {
-            Self {
-                state: State::default(var_count),
-                expr,
-            }
-        } else {
-            panic!("Last token was not EOF");
+    pub fn with_tokens(expr: Tokens<'t>) -> Self {
+        Self {
+            state: State::default(expr.var_count()),
+            expr,
         }
+    }
+
+    /// Return the name and value of the variable at `idx`
+    /// in the given [`State`].
+    ///
+    /// [`State`]: `State`
+    pub fn var_at(&self, s: &State, idx: usize) -> (&str, bool) {
+        (self.expr.var_at(idx), s.var_at(idx))
     }
 }
