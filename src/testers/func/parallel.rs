@@ -21,7 +21,7 @@ where
     /// 
     /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par(var_count: usize, expr: E) -> bool {
-        Tester::new(var_count, expr).succeeded_par()
+        Self::new(var_count, expr).succeeded_par()
     }
 
     /// Checks if any of possible states of the `var_count`
@@ -34,7 +34,7 @@ where
     /// 
     /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par(var_count: usize, expr: E) -> bool {
-        Tester::new(var_count, expr).failed_par()
+        Self::new(var_count, expr).failed_par()
     }
 
     /// This returns `true` iff there are no failures

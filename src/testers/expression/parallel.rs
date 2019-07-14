@@ -18,7 +18,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// 
     /// [`Tester::passes`]: `Tester::passes`
     pub fn passes_par<'i: 't>(inp: &'i str) -> bool {
-        Tester::parse(inp).succeeded_par()
+        Self::parse(inp).succeeded_par()
     }
 
     /// Checks if any of possible states of all variables
@@ -31,7 +31,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// 
     /// [`Tester::fails`]: `Tester::fails`
     pub fn fails_par<'i: 't>(inp: &'i str) -> bool {
-        Tester::parse(inp).failed_par()
+        Self::parse(inp).failed_par()
     }
 
     /// This returns `true` iff there are no failures

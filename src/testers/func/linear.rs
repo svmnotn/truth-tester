@@ -13,7 +13,7 @@ impl<E: ExprFn> Tester<E> {
     /// This function returns `true` if all possible states pass
     /// the given `expr`. And `false` otherwise.
     pub fn passes(var_count: usize, expr: E) -> bool {
-        Tester::new(var_count, expr).succeeded()
+        Self::new(var_count, expr).succeeded()
     }
 
     /// Checks if any of possible states of the `var_count`
@@ -22,7 +22,7 @@ impl<E: ExprFn> Tester<E> {
     /// This function returns `true` if all possible states fail
     /// the given `expr`. And `false` otherwise.
     pub fn fails(var_count: usize, expr: E) -> bool {
-        Tester::new(var_count, expr).failed()
+        Self::new(var_count, expr).failed()
     }
 
     /// This returns `true` iff there are no failures

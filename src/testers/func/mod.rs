@@ -23,7 +23,7 @@ impl<E: ExprFn> Tester<E> {
     /// [`Tester`]: `Tester`
     /// [`ExprFn`]: `ExprFn`
     pub fn new(var_count: usize, expr: E) -> Tester<E> {
-        Tester {
+        Self {
             state: State::default(var_count),
             expr,
         }

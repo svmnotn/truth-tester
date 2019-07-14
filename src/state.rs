@@ -28,7 +28,7 @@ impl State {
             "Cannot have more variables than the width of a pointer"
         );
 
-        State { vars: 0, var_count }
+        Self { vars: 0, var_count }
     }
 
     /// Return the state at `iter`
