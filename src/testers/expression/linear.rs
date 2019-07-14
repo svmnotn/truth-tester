@@ -42,16 +42,17 @@ impl<'t> Tester<Tokens<'t>> {
 
     /// Iterate over all the successes in sequence
     pub fn successes<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
-        self.test(true)
+        self.eval().filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in sequence
     pub fn failures<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
-        self.test(false)
+        self.eval().filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
-    fn test<'b>(&'b self, test: bool) -> impl Iterator<Item = State> + 'b {
-        self.iterations().filter_map(move |iter| {
+    /// Evaluate the expression of this [`Tester`]
+    pub fn eval<'b>(&'b self) -> impl Iterator<Item = (State, bool)> + 'b {
+        self.iterations().map(move |iter| {
             use Token::*;
 
             let state = self.state.iterate(iter);
@@ -114,13 +115,9 @@ impl<'t> Tester<Tokens<'t>> {
             }
 
             if let Some(v) = stack.pop() {
-                if v == test {
-                    Some(state)
-                } else {
-                    None
-                }
+                (state, v)
             } else {
-                None
+                unreachable!()
             }
         })
     }

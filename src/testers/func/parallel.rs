@@ -65,7 +65,7 @@ where
     /// 
     /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
-        self.test_par(true)
+        self.eval_par().filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in parallel
@@ -74,55 +74,18 @@ where
     /// 
     /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
-        self.test_par(false)
+        self.eval_par().filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
-    fn test_par<'a>(&'a self, test: bool) -> impl ParallelIterator<Item = State> + 'a {
-        self.iterations_par().filter_map(move |iter| {
-            let s = self.state.iterate(iter);
-            if (self.expr)(&s) == test {
-                Some(s)
-            } else {
-                None
-            }
+    /// Evaluate the expression of this [`Tester`]
+    /// 
+    /// This function is the parallel version of [`Tester::eval`]
+    /// 
+    /// [`Tester::eval`]: `Tester::eval`
+    fn eval_par<'a>(&'a self) -> impl ParallelIterator<Item = (State, bool)> + 'a {
+        self.iterations_par().map(move |iter| {
+            let state = self.state.iterate(iter);
+            (state, (self.expr)(&state))
         })
-    }
-
-    /// Get the full truth table
-    /// 
-    /// This function is the parallel version of [`Tester::all`]
-    /// 
-    /// [`Tester::all`]: `Tester::all`
-    #[cfg(feature = "alloc")]
-    pub fn all_par(&self) -> alloc::vec::Vec<(State, bool)> {
-        self.iterations_par()
-            .map(move |iter| {
-                let s = self.state.iterate(iter);
-                let v = (self.expr)(&s);
-                (s, v)
-            })
-            .collect()
-    }
-
-    /// Get a table of all states where 
-    /// the `expr` succeeds.
-    /// 
-    /// This function is the parallel version of [`Tester::all_successes`]
-    /// 
-    /// [`Tester::all_successes`]: `Tester::all_successes`
-    #[cfg(feature = "alloc")]
-    pub fn all_successes_par(&self) -> alloc::vec::Vec<State> {
-        self.successes_par().collect()
-    }
-
-    /// Get a table of all states where 
-    /// the `expr` fails.
-    /// 
-    /// This function is the parallel version of [`Tester::all_failures`]
-    /// 
-    /// [`Tester::all_failures`]: `Tester::all_failures`
-    #[cfg(feature = "alloc")]
-    pub fn all_failures_par(&self) -> alloc::vec::Vec<State> {
-        self.failures_par().collect()
     }
 }

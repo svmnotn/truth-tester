@@ -41,48 +41,19 @@ impl<E: ExprFn> Tester<E> {
 
     /// Iterate over all the successes in sequence
     pub fn successes<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
-        self.test(true)
+        self.eval().filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in sequence
     pub fn failures<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
-        self.test(false)
+        self.eval().filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
-    fn test<'a>(&'a self, test: bool) -> impl Iterator<Item = State> + 'a {
-        self.iterations().filter_map(move |iter| {
+    /// Evaluate the expression of this [`Tester`]
+    pub fn eval<'a>(&'a self) -> impl Iterator<Item = (State, bool)> + 'a {
+        self.iterations().map(move |iter| {
             let state = self.state.iterate(iter);
-            if (self.expr)(&state) == test {
-                Some(state)
-            } else {
-                None
-            }
+            (state, (self.expr)(&state))
         })
-    }
-
-    /// Get the full truth table
-    #[cfg(feature = "alloc")]
-    pub fn all(&self) -> alloc::vec::Vec<(State, bool)> {
-        self.iterations()
-            .map(move |iter| {
-                let s = self.state.iterate(iter);
-                let v = (self.expr)(&s);
-                (s, v)
-            })
-            .collect()
-    }
-
-    /// Get a table of all states where 
-    /// the `expr` succeeds.
-    #[cfg(feature = "alloc")]
-    pub fn all_successes(&self) -> alloc::vec::Vec<State> {
-        self.successes().collect()
-    }
-
-    /// Get a table of all states where 
-    /// the `expr` fails.
-    #[cfg(feature = "alloc")]
-    pub fn all_failures(&self) -> alloc::vec::Vec<State> {
-        self.failures().collect()
     }
 }

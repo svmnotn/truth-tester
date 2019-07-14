@@ -62,7 +62,7 @@ impl<'t> Tester<Tokens<'t>> {
     /// 
     /// [`Tester::successes`]: `Tester::successes`
     pub fn successes_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
-        self.test_par(true)
+        self.eval_par().filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in parallel
@@ -71,11 +71,16 @@ impl<'t> Tester<Tokens<'t>> {
     /// 
     /// [`Tester::failures`]: `Tester::failures`
     pub fn failures_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
-        self.test_par(false)
+        self.eval_par().filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
 
-    fn test_par<'b>(&'b self, test: bool) -> impl ParallelIterator<Item = State> + 'b {
-        self.iterations_par().filter_map(move |iter| {
+    /// Evaluate the expression of this [`Tester`]
+    /// 
+    /// This function is the parallel version of [`Tester::eval`]
+    /// 
+    /// [`Tester::eval`]: `Tester::eval`
+    pub fn eval_par<'b>(&'b self) -> impl ParallelIterator<Item = (State, bool)> + 'b {
+        self.iterations_par().map(move |iter| {
             use Token::*;
             use alloc::vec::Vec;
 
@@ -139,13 +144,9 @@ impl<'t> Tester<Tokens<'t>> {
             }
 
             if let Some(v) = stack.pop() {
-                if v == test {
-                    Some(state)
-                } else {
-                    None
-                }
+                (state, v)
             } else {
-                None
+                unreachable!()
             }
         })
     }
