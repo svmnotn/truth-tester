@@ -11,8 +11,9 @@ extern crate alloc;
 
 mod testers;
 pub use testers::{Tester, ExprFn};
+
 #[cfg(feature = "alloc")]
-pub use testers::{Lexer, Parser, Token, Tokens, TokenLiterals};
+pub mod parsing;
 
 mod state;
 pub use state::State;

@@ -1,4 +1,4 @@
-use crate::{Token, TokenLiterals};
+use super::{Token, TokenLiterals};
 use alloc::collections::btree_map::BTreeMap;
 use core::{iter::Peekable, str::SplitWhitespace};
 
@@ -17,7 +17,7 @@ impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
     /// [`TokenLiterals`].
     /// 
     /// [`TokenLiterals`]: `TokenLiterals`
-    pub fn new(input: &'i str) -> Self {
+    pub fn lex(input: &'i str) -> Self {
         let mut input = input.split_whitespace().peekable();
         let curr_str = input.next().unwrap_or("");
         Self {
@@ -34,7 +34,7 @@ impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
     /// Create a Lexer with the given [`TokenLiterals`]
     /// 
     /// [`TokenLiterals`]: `TokenLiterals`
-    pub fn new_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
+    pub fn lex_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
         let mut input = input.split_whitespace().peekable();
         let curr_str = input.next().unwrap_or("");
         Self {

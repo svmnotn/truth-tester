@@ -1,4 +1,4 @@
-use crate::{Lexer, Tokens, Token, TokenLiterals};
+use super::{Lexer, Tokens, Token, TokenLiterals};
 use alloc::vec::Vec;
 
 /// Boolean Expression Parser
@@ -9,20 +9,24 @@ pub struct Parser<'t, 'l, 'i: 't> {
 
 impl<'t, 'i: 't> Parser<'t, 'static, 'i> {
     /// Create a new Parser with the
-    /// Default `TokenLiterals`
-    pub fn new(input: &'i str) -> Self {
+    /// Default [`TokenLiterals`].
+    /// 
+    /// [`TokenLiterals`]: `TokenLiterals`
+    pub fn parse(input: &'i str) -> Self {
         Self {
-            lexer: Lexer::new(input),
+            lexer: Lexer::lex(input),
         }
     }
 }
 
 impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
     /// Create a new Parser with the given
-    /// `TokenLiterals`
-    pub fn new_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
+    /// [`TokenLiterals`].
+    /// 
+    /// [`TokenLiterals`]: `TokenLiterals`
+    pub fn parse_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
         Self {
-            lexer: Lexer::new_with_literals(input, literals),
+            lexer: Lexer::lex_with_literals(input, literals),
         }
     }
 

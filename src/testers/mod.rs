@@ -3,10 +3,8 @@ pub use func::ExprFn;
 
 #[cfg(feature = "alloc")]
 mod expression;
-#[cfg(feature = "alloc")]
-pub use expression::{Token, TokenLiterals, Tokens, Parser, Lexer};
 
-use crate::State;
+use crate::{State, parsing::Tokens};
 
 /// A struct used to store both 
 /// the user given expression,

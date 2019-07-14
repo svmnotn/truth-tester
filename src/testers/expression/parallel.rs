@@ -1,4 +1,4 @@
-use crate::{Token, Tokens, Tester, State};
+use crate::{parsing::{Token, Tokens}, Tester, State};
 use rayon::prelude::*;
 
 /// Parallel implementation of all 
