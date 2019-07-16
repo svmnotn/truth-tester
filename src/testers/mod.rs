@@ -1,7 +1,7 @@
 mod func;
 pub use func::ExprFn;
 
-#[cfg(feature = "alloc")]
+#[cfg(feature = "parsing")]
 mod expression;
 
 /// A Trait representing all possible
@@ -13,10 +13,10 @@ pub trait Expression {}
 
 impl<E: ExprFn> Expression for E {}
 
-#[cfg(feature = "alloc")]
+#[cfg(feature = "parsing")]
 use crate::parsing::Tokens;
 
-#[cfg(feature = "alloc")]
+#[cfg(feature = "parsing")]
 impl<'a> Expression for Tokens<'a> {}
 
 use crate::State;

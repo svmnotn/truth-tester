@@ -9,15 +9,27 @@ keywords = ["no_std"]
 repository = "https://github.com/svmnotn/truth-tester"
 
 [features]
-default = ["parallel"]
-alloc = []
-# Rayon isn't no_std, thus if parallelism
-# is enabled, so is our ability to use
-# allocation
-parallel = ["rayon", "alloc"]
+# By default we enable `parallel`,
+# which requires `tester`, and
+# `parsing`. Compiling this library
+# with --no-default-features alone
+# disables _everything_, so make
+# sure to enable some features
+default = ["parallel", "parsing"]
+# Enables the `Tester` and `State` types
+# so that you can use this library to
+# test boolean expressions
+tester = ["bit_field"]
+# Enables the `parsing` module
+# so that the library is capable
+# of parsing boolean expression
+# However, this requires allocation
+parsing = []
+# Rayon is _not_ no_std
+parallel = ["rayon", "tester"]
 
 [dependencies]
-bit_field = "0.10.0"
+bit_field = { version = "0.10.0", optional = true }
 rayon = { version = "1.1.0", optional = true }
 
 [profile.release]

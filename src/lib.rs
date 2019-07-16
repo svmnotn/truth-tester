@@ -6,14 +6,18 @@
 // see https://github.com/rust-lang/rust/issues/41517
 #![feature(trait_alias)]
 
-#[cfg(feature = "alloc")]
+#[cfg(feature = "parsing")]
 extern crate alloc;
 
+#[cfg(feature = "tester")]
 mod testers;
+#[cfg(feature = "tester")]
 pub use testers::{ExprFn, Tester};
 
-#[cfg(feature = "alloc")]
+#[cfg(feature = "parsing")]
 pub mod parsing;
 
+#[cfg(feature = "tester")]
 mod state;
+#[cfg(feature = "tester")]
 pub use state::State;
