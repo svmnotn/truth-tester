@@ -46,6 +46,14 @@ impl State {
         }
     }
 
+    /// Returns the iteration represented
+    /// by this [`State`].
+    ///
+    /// [`State`]: `State`
+    pub fn iteration(&self) -> usize {
+        self.vars
+    }
+
     /// Return the variable at `idx`
     ///
     /// ## Panics
