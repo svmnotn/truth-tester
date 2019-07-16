@@ -2,7 +2,7 @@ mod linear;
 #[cfg(feature = "parallel")]
 mod parallel;
 
-use crate::{State, Tester};
+use crate::tester::{State, Tester};
 
 /// A function that takes a [`State`] and returns a [`bool`]
 ///

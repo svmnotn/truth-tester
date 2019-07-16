@@ -4,7 +4,7 @@ mod parallel;
 
 use crate::{
     parsing::{Parser, Token, TokenLiterals, Tokens},
-    State, Tester,
+    tester::{State, Tester},
 };
 
 /// [`Tester`] based on parsed [`Tokens`].

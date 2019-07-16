@@ -1,8 +1,4 @@
 use bit_field::BitField;
-// This is an import for the sake
-// of the docs
-#[allow(unused_imports)]
-use crate::Tester;
 
 /// The state of a [`Tester`]
 ///
@@ -11,7 +7,7 @@ use crate::Tester;
 ///
 /// This is due to the variables being solely stored inside a [`usize`]
 ///
-/// [`Tester`]: `Tester`
+/// [`Tester`]: `crate::tester::Tester`
 /// [`usize`]: `usize`
 #[derive(Clone, Copy)]
 pub struct State {

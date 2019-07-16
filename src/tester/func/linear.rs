@@ -1,12 +1,12 @@
-use crate::{parsing::Tokens, State, Tester};
+use crate::tester::{ExprFn, State, Tester};
 
 /// Linear implementation of all
 /// the [`Tester`] methods,
-/// based on parsed [`Tokens`].
+/// based on an [`ExprFn`].
 ///
 /// [`Tester`]: `Tester`
-/// [`Tokens`]: `Tokens`
-impl<'t> Tester<Tokens<'t>> {
+/// [`ExprFn`]: `ExprFn`
+impl<E: ExprFn> Tester<E> {
     /// This returns `true` iff there are no failures
     pub fn is_true(&self) -> bool {
         self.failures().any(|_| true) == false
@@ -22,13 +22,13 @@ impl<'t> Tester<Tokens<'t>> {
     }
 
     /// Iterate over all the successes in sequence
-    pub fn successes<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
+    pub fn successes<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
         self.eval()
             .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
 
     /// Iterate over all the failures in sequence
-    pub fn failures<'b>(&'b self) -> impl Iterator<Item = State> + 'b {
+    pub fn failures<'a>(&'a self) -> impl Iterator<Item = State> + 'a {
         self.eval()
             .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
@@ -36,7 +36,10 @@ impl<'t> Tester<Tokens<'t>> {
     /// Evaluate the expression of this [`Tester`]
     ///
     /// [`Tester`]: `Tester`
-    pub fn eval<'b>(&'b self) -> impl Iterator<Item = (State, bool)> + 'b {
-        self.iterations().map(move |iter| self.eval_iter(iter))
+    pub fn eval<'a>(&'a self) -> impl Iterator<Item = (State, bool)> + 'a {
+        self.iterations().map(move |iter| {
+            let state = self.state.iterate(iter);
+            (state, (self.expr)(&state))
+        })
     }
 }

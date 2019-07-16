@@ -1,16 +1,16 @@
-use crate::{ExprFn, State, Tester};
+use crate::{
+    parsing::Tokens,
+    tester::{State, Tester},
+};
 use rayon::prelude::*;
 
 /// Parallel implementation of all
 /// the [`Tester`] methods,
-/// based on an [`ExprFn`].
+/// based on parsed [`Tokens`].
 ///
 /// [`Tester`]: `Tester`
-/// [`ExprFn`]: `ExprFn`
-impl<E> Tester<E>
-where
-    E: ExprFn + Send + Sync,
-{
+/// [`Tokens`]: `Tokens`
+impl<'t> Tester<Tokens<'t>> {
     /// This returns `true` iff there are no failures
     ///
     /// This function is the parallel version of [`Tester::is_true`]
@@ -38,7 +38,7 @@ where
     /// This function is the parallel version of [`Tester::successes`]
     ///
     /// [`Tester::successes`]: `Tester::successes`
-    pub fn successes_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
+    pub fn successes_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
         self.eval_par()
             .filter_map(|(s, v)| if v == true { Some(s) } else { None })
     }
@@ -48,7 +48,7 @@ where
     /// This function is the parallel version of [`Tester::failures`]
     ///
     /// [`Tester::failures`]: `Tester::failures`
-    pub fn failures_par<'a>(&'a self) -> impl ParallelIterator<Item = State> + 'a {
+    pub fn failures_par<'b>(&'b self) -> impl ParallelIterator<Item = State> + 'b {
         self.eval_par()
             .filter_map(|(s, v)| if v == false { Some(s) } else { None })
     }
@@ -59,10 +59,7 @@ where
     ///
     /// [`Tester`]: `Tester`
     /// [`Tester::eval`]: `Tester::eval`
-    fn eval_par<'a>(&'a self) -> impl ParallelIterator<Item = (State, bool)> + 'a {
-        self.iterations_par().map(move |iter| {
-            let state = self.state.iterate(iter);
-            (state, (self.expr)(&state))
-        })
+    pub fn eval_par<'b>(&'b self) -> impl ParallelIterator<Item = (State, bool)> + 'b {
+        self.iterations_par().map(move |iter| self.eval_iter(iter))
     }
 }

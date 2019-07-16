@@ -10,14 +10,7 @@
 extern crate alloc;
 
 #[cfg(feature = "tester")]
-mod testers;
-#[cfg(feature = "tester")]
-pub use testers::{ExprFn, Tester};
+pub mod tester;
 
 #[cfg(feature = "parsing")]
 pub mod parsing;
-
-#[cfg(feature = "tester")]
-mod state;
-#[cfg(feature = "tester")]
-pub use state::State;
