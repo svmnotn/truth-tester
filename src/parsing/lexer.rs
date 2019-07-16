@@ -60,14 +60,21 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
         use Token::*;
 
         #[inline]
-        fn find<'i, 'l>(inp: &'i str, tokens: &'l [&'l str]) -> Option<&'l &'l str> {
-            tokens.iter().find(|token| {
-                if inp.len() < token.len() {
-                    false
-                } else {
-                    token.eq_ignore_ascii_case(&inp[0..token.len()])
-                }
-            })
+        fn find<'i, 'l>(
+            inp: &'i str,
+            tokens: &'l [&'l str],
+            t: Token<'i>,
+        ) -> Option<(Token<'i>, usize)> {
+            tokens
+                .iter()
+                .find(|token| {
+                    if inp.len() < token.len() {
+                        false
+                    } else {
+                        token.eq_ignore_ascii_case(&inp[0..token.len()])
+                    }
+                })
+                .map(|s| (t, s.len()))
         }
 
         if self.input.peek().is_none() && self.curr_str.is_empty() {
@@ -85,55 +92,21 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
             let mut found_val_len = 0;
 
             for i in 0..self.curr_str.len() {
-                if let Some(s) = find(&self.curr_str[i..], self.literals.lit_false) {
+                let search_str = &self.curr_str[i..];
+                if let Some((val, len)) = find(search_str, self.literals.lit_true, Literal(true))
+                    .or_else(|| find(search_str, self.literals.lit_false, Literal(false)))
+                    .or_else(|| find(search_str, self.literals.not, Not))
+                    .or_else(|| find(search_str, self.literals.and, And))
+                    .or_else(|| find(search_str, self.literals.xor, Xor))
+                    .or_else(|| find(search_str, self.literals.or, Or))
+                    .or_else(|| find(search_str, self.literals.implication, Implication))
+                    .or_else(|| find(search_str, self.literals.equality, Equality))
+                    .or_else(|| find(search_str, self.literals.left_paren, LParen))
+                    .or_else(|| find(search_str, self.literals.right_paren, RParen))
+                {
                     found_idx = i;
-                    found_val = Some(Literal(false));
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.lit_true) {
-                    found_idx = i;
-                    found_val = Some(Literal(true));
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.not) {
-                    found_idx = i;
-                    found_val = Some(Not);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.and) {
-                    found_idx = i;
-                    found_val = Some(And);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.xor) {
-                    found_idx = i;
-                    found_val = Some(Xor);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.or) {
-                    found_idx = i;
-                    found_val = Some(Or);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.implication) {
-                    found_idx = i;
-                    found_val = Some(Implication);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.equality) {
-                    found_idx = i;
-                    found_val = Some(Equality);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.left_paren) {
-                    found_idx = i;
-                    found_val = Some(LParen);
-                    found_val_len = s.len();
-                    break;
-                } else if let Some(s) = find(&self.curr_str[i..], self.literals.right_paren) {
-                    found_idx = i;
-                    found_val = Some(RParen);
-                    found_val_len = s.len();
+                    found_val = Some(val);
+                    found_val_len = len;
                     break;
                 }
             }
