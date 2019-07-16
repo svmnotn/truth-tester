@@ -35,7 +35,6 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
         use Token::*;
         let mut toks: Vec<Token> = Vec::new();
         let mut stack: Vec<Token> = Vec::new();
-        let mut var_count = 0;
 
         while let Some(t) = self.lexer.next() {
             match t {
@@ -59,10 +58,6 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
                         panic!("Mismached parens!");
                     }
                 }
-                EOF(v) => {
-                    var_count = v;
-                    break;
-                }
                 t => {
                     while let Some(tok) = stack.pop() {
                         if tok.precedence() > t.precedence() {
@@ -84,10 +79,12 @@ impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
             toks.push(t);
         }
 
+        let var_map = self.lexer.var_map();
+
         Tokens {
             toks,
-            var_map: self.lexer.var_map(),
-            var_count,
+            var_count: var_map.len(),
+            var_map,
         }
     }
 }

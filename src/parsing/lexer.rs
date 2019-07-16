@@ -9,7 +9,6 @@ pub struct Lexer<'t, 'l, 'i: 't> {
     input: Peekable<SplitWhitespace<'i>>,
     curr_str: &'t str,
     var_map: BTreeMap<&'t str, usize>,
-    finished: bool,
 }
 
 impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
@@ -25,7 +24,6 @@ impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
             curr_str,
             literals: TokenLiterals::default(),
             var_map: BTreeMap::new(),
-            finished: false,
         }
     }
 }
@@ -42,10 +40,14 @@ impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
             input,
             curr_str,
             var_map: BTreeMap::new(),
-            finished: false,
         }
     }
 
+    /// Returns a Vec of var_names index by the order
+    /// in which they appear in the expression
+    ///
+    /// *This function should only be called after
+    /// the Lexer has finished*
     pub(crate) fn var_map(&self) -> Vec<&'t str> {
         self.var_map.iter().map(|(name, _)| *name).collect()
     }
@@ -68,11 +70,8 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
             })
         }
 
-        if self.finished {
+        if self.input.peek().is_none() && self.curr_str.is_empty() {
             None
-        } else if self.input.peek().is_none() && self.curr_str.is_empty() {
-            self.finished = true;
-            Some(EOF(self.var_map.len()))
         } else {
             if self.curr_str.is_empty() {
                 self.curr_str = self

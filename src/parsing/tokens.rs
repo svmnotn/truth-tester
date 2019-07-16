@@ -62,10 +62,6 @@ pub enum Token<'a> {
     LParen,
     /// A Right Parenthesis
     RParen,
-    /// The end of the given input was reached.
-    /// It contains a count of how many variables
-    /// where inside the expression.
-    EOF(usize),
 }
 
 impl<'a> Token<'a> {
