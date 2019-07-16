@@ -166,7 +166,9 @@ pub struct TokenLiterals<'a> {
 
 /// The default set of values for the [`TokenLiterals`] struct
 /// are as follows:
-/// ```rust
+/// ```
+/// # use truth_tester::parsing::TokenLiterals;
+/// # let literals =
 /// TokenLiterals {
 ///     lit_true: &["true"],
 ///     lit_false: &["false"],
@@ -179,6 +181,7 @@ pub struct TokenLiterals<'a> {
 ///     left_paren: &["(", "{", "["],
 ///     right_paren: &[")", "}", "]"],
 /// }
+/// # ;
 /// ```
 ///
 /// [`TokenLiterals`]: `TokenLiterals`
