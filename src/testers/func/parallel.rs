@@ -11,32 +11,6 @@ impl<E> Tester<E>
 where
     E: ExprFn + Send + Sync,
 {
-    /// Checks if any of possible states of the `var_count`
-    /// variables fails the given expression.
-    ///
-    /// This function returns `true` if all possible states pass
-    /// the given `expr`. And `false` otherwise.
-    ///
-    /// This function is the parallel version of [`Tester::passes`]
-    ///
-    /// [`Tester::passes`]: `Tester::passes`
-    pub fn passes_par(var_count: usize, expr: E) -> bool {
-        Self::new(var_count, expr).succeeded_par()
-    }
-
-    /// Checks if any of possible states of the `var_count`
-    /// variables passes the given expression.
-    ///
-    /// This function returns `true` if all possible states fail
-    /// the given `expr`. And `false` otherwise.
-    ///
-    /// This function is the parallel version of [`Tester::fails`]
-    ///
-    /// [`Tester::fails`]: `Tester::fails`
-    pub fn fails_par(var_count: usize, expr: E) -> bool {
-        Self::new(var_count, expr).failed_par()
-    }
-
     /// This returns `true` iff there are no failures
     ///
     /// This function is the parallel version of [`Tester::succeeded`]

@@ -7,24 +7,6 @@ use crate::{parsing::Tokens, State, Tester};
 /// [`Tester`]: `Tester`
 /// [`Tokens`]: `Tokens`
 impl<'t> Tester<Tokens<'t>> {
-    /// Checks if any of possible states of all variables
-    /// in the given input expression fails.
-    ///
-    /// This function returns `true` if all possible states pass
-    /// the given `inp`, and `false` otherwise.
-    pub fn passes<'i: 't>(inp: &'i str) -> bool {
-        Self::parse(inp).succeeded()
-    }
-
-    /// Checks if any of possible states of all variables
-    /// in the given input expression passes.
-    ///
-    /// This function returns `true` if all possible states fail
-    /// the given `inp`, and `false` otherwise.
-    pub fn fails<'i: 't>(inp: &'i str) -> bool {
-        Self::parse(inp).failed()
-    }
-
     /// This returns `true` iff there are no failures
     pub fn succeeded(&self) -> bool {
         self.failures().any(|_| true) == false

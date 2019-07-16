@@ -8,32 +8,6 @@ use rayon::prelude::*;
 /// [`Tester`]: `Tester`
 /// [`Tokens`]: `Tokens`
 impl<'t> Tester<Tokens<'t>> {
-    /// Checks if any of possible states of all variables
-    /// in the given input expression fails.
-    ///
-    /// This function returns `true` if all possible states pass
-    /// the given `inp`, and `false` otherwise.
-    ///
-    /// This function is the parallel version of [`Tester::passes`]
-    ///
-    /// [`Tester::passes`]: `Tester::passes`
-    pub fn passes_par<'i: 't>(inp: &'i str) -> bool {
-        Self::parse(inp).succeeded_par()
-    }
-
-    /// Checks if any of possible states of all variables
-    /// in the given input expression passes.
-    ///
-    /// This function returns `true` if all possible states fail
-    /// the given `inp`, and `false` otherwise.
-    ///
-    /// This function is the parallel version of [`Tester::fails`]
-    ///
-    /// [`Tester::fails`]: `Tester::fails`
-    pub fn fails_par<'i: 't>(inp: &'i str) -> bool {
-        Self::parse(inp).failed_par()
-    }
-
     /// This returns `true` iff there are no failures
     ///
     /// This function is the parallel version of [`Tester::succeeded`]
