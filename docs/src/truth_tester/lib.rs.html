@@ -17,8 +17,129 @@
 <span id="17">17</span>
 <span id="18">18</span>
 <span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
 </pre><div class="example-wrap"><pre class="rust ">
-<span class="doccomment">//! TODO better documentation</span>
+<span class="doccomment">//! `truth_tester` is a library for testing boolean expressions.</span>
+<span class="doccomment">//! The expressions can be in one of two froms:</span>
+<span class="doccomment">//! - a function of type `fn(&amp;State) -&gt; bool`</span>
+<span class="doccomment">//! and the amount of variables in it</span>
+<span class="doccomment">//! - a `&amp;str` with a boolean expression.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! Furthermore, as `truth_tester` is able to interpret a boolean</span>
+<span class="doccomment">//! expression, the parser it uses is also available under the</span>
+<span class="doccomment">//! [`parsing`] module.</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Using `truth_tester` for its Testing capabilities</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! For the complete guide check the [`tester`] module docs.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! But be aware that if you disable default features, </span>
+<span class="doccomment">//! by specifying so in your Cargo.toml</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.truth_tester]</span>
+<span class="doccomment">//! version = &quot;0.1.0&quot;</span>
+<span class="doccomment">//! default-features = false</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! you then have to enable the `tester` feature</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.truth_tester]</span>
+<span class="doccomment">//! version = &quot;0.1.0&quot;</span>
+<span class="doccomment">//! default-features = false</span>
+<span class="doccomment">//! features = [&quot;tester&quot;]</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! As it is needed for the [`tester`] module to be</span>
+<span class="doccomment">//! included in the code.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! For testing parsed expressions, the `parsing` feature</span>
+<span class="doccomment">//! also needs to be enabled.</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.truth_tester]</span>
+<span class="doccomment">//! version = &quot;0.1.0&quot;</span>
+<span class="doccomment">//! default-features = false</span>
+<span class="doccomment">//! features = [&quot;tester&quot;, &quot;parsing&quot;]</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! ## Using `truth_tester` as a boolean expression parser</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! For the complete guide check the [`parsing`] module docs.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! But be aware that if you disable default features, </span>
+<span class="doccomment">//! by specifying so in your Cargo.toml</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.truth_tester]</span>
+<span class="doccomment">//! version = &quot;0.1.0&quot;</span>
+<span class="doccomment">//! default-features = false</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! you then have to enable the `parsing` feature</span>
+<span class="doccomment">//! ```toml</span>
+<span class="doccomment">//! [dependencies.truth_tester]</span>
+<span class="doccomment">//! version = &quot;0.1.0&quot;</span>
+<span class="doccomment">//! default-features = false</span>
+<span class="doccomment">//! features = [&quot;parsing&quot;]</span>
+<span class="doccomment">//! ```</span>
+<span class="doccomment">//! As it is needed for the [`parsing`] module to be</span>
+<span class="doccomment">//! included in the code.</span>
+<span class="doccomment">//! </span>
+<span class="doccomment">//! [`parsing`]: `parsing`</span>
+<span class="doccomment">//! [`tester`]: `tester`</span>
 <span class="attribute">#![<span class="ident">no_std</span>]</span>
 <span class="attribute">#![<span class="ident">warn</span>(<span class="ident">missing_docs</span>)]</span>
 <span class="comment">// This is used in order to have `ExprFn` exist,</span>
@@ -26,16 +147,13 @@
 <span class="comment">// see https://github.com/rust-lang/rust/issues/41517</span>
 <span class="attribute">#![<span class="ident">feature</span>(<span class="ident">trait_alias</span>)]</span>
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>)]</span>
 <span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">alloc</span>;
 
-<span class="kw">mod</span> <span class="ident">testers</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">testers</span>::{<span class="ident">ExprFn</span>, <span class="ident">Tester</span>};
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;tester&quot;</span>)]</span>
+<span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">tester</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;parsing&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">mod</span> <span class="ident">parsing</span>;
-
-<span class="kw">mod</span> <span class="ident">state</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">state</span>::<span class="ident">State</span>;
 </pre></div>
 </section><section id="search" class="content hidden"></section><section class="footer"></section><aside id="help" class="hidden"><div><h1 class="hidden">Help</h1><div class="shortcuts"><h2>Keyboard Shortcuts</h2><dl><dt><kbd>?</kbd></dt><dd>Show this help dialog</dd><dt><kbd>S</kbd></dt><dd>Focus the search field</dd><dt><kbd>↑</kbd></dt><dd>Move up in search results</dd><dt><kbd>↓</kbd></dt><dd>Move down in search results</dd><dt><kbd>↹</kbd></dt><dd>Switch tab</dd><dt><kbd>&#9166;</kbd></dt><dd>Go to active search result</dd><dt><kbd>+</kbd></dt><dd>Expand all sections</dd><dt><kbd>-</kbd></dt><dd>Collapse all sections</dd></dl></div><div class="infos"><h2>Search Tricks</h2><p>Prefix searches with a type followed by a colon (e.g., <code>fn:</code>) to restrict the search to a given type.</p><p>Accepted types are: <code>fn</code>, <code>mod</code>, <code>struct</code>, <code>enum</code>, <code>trait</code>, <code>type</code>, <code>macro</code>, and <code>const</code>.</p><p>Search functions by type signature (e.g., <code>vec -> usize</code> or <code>* -> vec</code>)</p><p>Search multiple things at once by splitting your query with comma (e.g., <code>str,u8</code> or <code>String,struct:Vec,test</code>)</p></div></div></aside><script>window.rootPath = "../../";window.currentCrate = "truth_tester";</script><script src="../../aliases.js"></script><script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script><script defer src="../../search-index.js"></script></body></html>

@@ -201,7 +201,6 @@
 <span id="201">201</span>
 <span id="202">202</span>
 <span id="203">203</span>
-<span id="204">204</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="doccomment">/// A full expression, which is made of [`Token`]s</span>
 <span class="doccomment">///</span>
@@ -267,10 +266,6 @@
     <span class="ident">LParen</span>,
     <span class="doccomment">/// A Right Parenthesis</span>
     <span class="ident">RParen</span>,
-    <span class="doccomment">/// The end of the given input was reached.</span>
-    <span class="doccomment">/// It contains a count of how many variables</span>
-    <span class="doccomment">/// where inside the expression.</span>
-    <span class="ident">EOF</span>(<span class="ident">usize</span>),
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">Token</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
@@ -375,7 +370,9 @@
 
 <span class="doccomment">/// The default set of values for the [`TokenLiterals`] struct</span>
 <span class="doccomment">/// are as follows:</span>
-<span class="doccomment">/// ```rust</span>
+<span class="doccomment">/// ```</span>
+<span class="doccomment">/// # use truth_tester::parsing::TokenLiterals;</span>
+<span class="doccomment">/// # let literals =</span>
 <span class="doccomment">/// TokenLiterals {</span>
 <span class="doccomment">///     lit_true: &amp;[&quot;true&quot;],</span>
 <span class="doccomment">///     lit_false: &amp;[&quot;false&quot;],</span>
@@ -388,6 +385,7 @@
 <span class="doccomment">///     left_paren: &amp;[&quot;(&quot;, &quot;{&quot;, &quot;[&quot;],</span>
 <span class="doccomment">///     right_paren: &amp;[&quot;)&quot;, &quot;}&quot;, &quot;]&quot;],</span>
 <span class="doccomment">/// }</span>
+<span class="doccomment">/// # ;</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// [`TokenLiterals`]: `TokenLiterals`</span>

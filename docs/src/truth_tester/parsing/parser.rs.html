@@ -88,9 +88,6 @@
 <span id="88">88</span>
 <span id="89">89</span>
 <span id="90">90</span>
-<span id="91">91</span>
-<span id="92">92</span>
-<span id="93">93</span>
 </pre><div class="example-wrap"><pre class="rust ">
 <span class="kw">use</span> <span class="kw">super</span>::{<span class="ident">Lexer</span>, <span class="ident">Token</span>, <span class="ident">TokenLiterals</span>, <span class="ident">Tokens</span>};
 <span class="kw">use</span> <span class="ident">alloc</span>::<span class="ident">vec</span>::<span class="ident">Vec</span>;
@@ -129,7 +126,6 @@
         <span class="kw">use</span> <span class="ident">Token</span>::<span class="kw-2">*</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">toks</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Token</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">stack</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">Token</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="ident">new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">var_count</span> <span class="op">=</span> <span class="number">0</span>;
 
         <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">t</span>) <span class="op">=</span> <span class="self">self</span>.<span class="ident">lexer</span>.<span class="ident">next</span>() {
             <span class="kw">match</span> <span class="ident">t</span> {
@@ -153,10 +149,6 @@
                         <span class="macro">panic</span><span class="macro">!</span>(<span class="string">&quot;Mismached parens!&quot;</span>);
                     }
                 }
-                <span class="ident">EOF</span>(<span class="ident">v</span>) <span class="op">=&gt;</span> {
-                    <span class="ident">var_count</span> <span class="op">=</span> <span class="ident">v</span>;
-                    <span class="kw">break</span>;
-                }
                 <span class="ident">t</span> <span class="op">=&gt;</span> {
                     <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">tok</span>) <span class="op">=</span> <span class="ident">stack</span>.<span class="ident">pop</span>() {
                         <span class="kw">if</span> <span class="ident">tok</span>.<span class="ident">precedence</span>() <span class="op">&gt;</span> <span class="ident">t</span>.<span class="ident">precedence</span>() {
@@ -178,10 +170,12 @@
             <span class="ident">toks</span>.<span class="ident">push</span>(<span class="ident">t</span>);
         }
 
+        <span class="kw">let</span> <span class="ident">var_map</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">lexer</span>.<span class="ident">var_map</span>();
+
         <span class="ident">Tokens</span> {
             <span class="ident">toks</span>,
-            <span class="ident">var_map</span>: <span class="self">self</span>.<span class="ident">lexer</span>.<span class="ident">var_map</span>(),
-            <span class="ident">var_count</span>,
+            <span class="ident">var_count</span>: <span class="ident">var_map</span>.<span class="ident">len</span>(),
+            <span class="ident">var_map</span>,
         }
     }
 }
