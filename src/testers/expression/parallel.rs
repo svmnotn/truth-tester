@@ -10,19 +10,19 @@ use rayon::prelude::*;
 impl<'t> Tester<Tokens<'t>> {
     /// This returns `true` iff there are no failures
     ///
-    /// This function is the parallel version of [`Tester::succeeded`]
+    /// This function is the parallel version of [`Tester::is_true`]
     ///
-    /// [`Tester::succeeded`]: `Tester::succeeded`
-    pub fn succeeded_par(&self) -> bool {
+    /// [`Tester::is_true`]: `Tester::is_true`
+    pub fn is_true_par(&self) -> bool {
         self.failures_par().any(|_| true) == false
     }
 
     /// This returns `true` iff there are no sucesses
     ///
-    /// This function is the parallel version of [`Tester::failed`]
+    /// This function is the parallel version of [`Tester::is_false`]
     ///
-    /// [`Tester::failed`]: `Tester::failed`
-    pub fn failed_par(&self) -> bool {
+    /// [`Tester::is_false`]: `Tester::is_false`
+    pub fn is_false_par(&self) -> bool {
         self.successes_par().any(|_| true) == false
     }
 

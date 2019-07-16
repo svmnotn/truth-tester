@@ -8,12 +8,12 @@ use crate::{ExprFn, State, Tester};
 /// [`ExprFn`]: `ExprFn`
 impl<E: ExprFn> Tester<E> {
     /// This returns `true` iff there are no failures
-    pub fn succeeded(&self) -> bool {
+    pub fn is_true(&self) -> bool {
         self.failures().any(|_| true) == false
     }
 
     /// This returns `true` iff there are no sucesses
-    pub fn failed(&self) -> bool {
+    pub fn is_false(&self) -> bool {
         self.successes().any(|_| true) == false
     }
 
