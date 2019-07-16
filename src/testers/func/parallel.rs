@@ -83,6 +83,7 @@ where
     ///
     /// This function is the parallel version of [`Tester::eval`]
     ///
+    /// [`Tester`]: `Tester`
     /// [`Tester::eval`]: `Tester::eval`
     fn eval_par<'a>(&'a self) -> impl ParallelIterator<Item = (State, bool)> + 'a {
         self.iterations_par().map(move |iter| {

@@ -52,6 +52,8 @@ impl<'t> Tester<Tokens<'t>> {
     }
 
     /// Evaluate the expression of this [`Tester`]
+    ///
+    /// [`Tester`]: `Tester`
     pub fn eval<'b>(&'b self) -> impl Iterator<Item = (State, bool)> + 'b {
         self.iterations().map(move |iter| self.eval_iter(iter))
     }

@@ -52,6 +52,8 @@ impl<E: ExprFn> Tester<E> {
     }
 
     /// Evaluate the expression of this [`Tester`]
+    ///
+    /// [`Tester`]: `Tester`
     pub fn eval<'a>(&'a self) -> impl Iterator<Item = (State, bool)> + 'a {
         self.iterations().map(move |iter| {
             let state = self.state.iterate(iter);

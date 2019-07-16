@@ -80,6 +80,7 @@ impl<'t> Tester<Tokens<'t>> {
     ///
     /// This function is the parallel version of [`Tester::eval`]
     ///
+    /// [`Tester`]: `Tester`
     /// [`Tester::eval`]: `Tester::eval`
     pub fn eval_par<'b>(&'b self) -> impl ParallelIterator<Item = (State, bool)> + 'b {
         self.iterations_par().map(move |iter| self.eval_iter(iter))
