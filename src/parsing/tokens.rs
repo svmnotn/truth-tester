@@ -100,7 +100,7 @@ impl<'a> Token<'a> {
 /// in an input string
 ///
 /// [`Token`]: `Token`
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct TokenLiterals<'a> {
     /// An array representing all the forms
     /// that the [`Token::Literal(true)`] value
@@ -168,7 +168,7 @@ pub struct TokenLiterals<'a> {
 /// are as follows:
 /// ```
 /// # use truth_tester::parsing::TokenLiterals;
-/// # let literals =
+/// # assert_eq!(TokenLiterals::default(), 
 /// TokenLiterals {
 ///     lit_true: &["true"],
 ///     lit_false: &["false"],
@@ -181,7 +181,7 @@ pub struct TokenLiterals<'a> {
 ///     left_paren: &["(", "{", "["],
 ///     right_paren: &[")", "}", "]"],
 /// }
-/// # ;
+/// # );
 /// ```
 ///
 /// [`TokenLiterals`]: `TokenLiterals`
