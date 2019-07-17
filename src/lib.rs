@@ -59,14 +59,17 @@
 //! As it is needed for the [`parsing`] module to be
 //! included in the code.
 //! 
-//! [`parsing`]: `parsing`
-//! [`tester`]: `tester`
+#![cfg_attr(feature = "parsing", doc = "[`parsing`]: `parsing`")]
+#![cfg_attr(feature = "tester", doc = "[`tester`]: `tester`")]
+
 #![no_std]
 #![warn(missing_docs)]
 // This is used in order to have `ExprFn` exist,
 // can be removed once `trait_alias` stabilizes,
 // see https://github.com/rust-lang/rust/issues/41517
 #![feature(trait_alias)]
+// This is for conditional compilation of code examples
+#![feature(external_doc)]
 
 #[cfg(feature = "parsing")]
 extern crate alloc;
