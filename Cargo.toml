@@ -3,10 +3,20 @@ name = "truth-tester"
 version = "0.1.0"
 authors = ["Victor M. Suarez"]
 edition = "2018"
-license = "Apache-2.0/MIT"
 description = "A library for testing  all possible states of N variables."
-keywords = ["no_std"]
 repository = "https://github.com/svmnotn/truth-tester"
+readme = "README.md"
+keywords = ["no-std", "boolean-expression-parser", "boolean-expression-tester"]
+categories = ["no-std", "parser-implementations"]
+license = "Apache-2.0 OR MIT"
+
+[badges]
+travis-ci = { repository = "svmnotn/truth-tester", branch = "master" }
+is-it-maintained-issue-resolution = { repository = "svmnotn/truth-tester" }
+is-it-maintained-open-issues = { repository = "svmnotn/truth-tester" }
+maintenance = { status = "experimental" }
+# Switch to the one below once ready to be published
+# maintenance = { status = "actively-developed" }
 
 [features]
 # By default we enable `parallel`,
