@@ -1,15 +1,36 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="refresh" content="0; url=https://svmnotn.github.io/truth-tester/truth_tester/">
-        <script type="text/javascript">
-            window.location.href = "https://svmnotn.github.io/truth-tester/truth_tester/"
-        </script>
-        <title>Page Redirection</title>
-    </head>
-    <body>
-        <!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
-        If you are not redirected automatically, follow this <a href='https://svmnotn.github.io/truth-tester/truth_tester/'>link to example</a>.
-    </body>
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="A thing that does stuff">
+    <meta name="author" content="Victor M. Suarez">
+    <title>Truth Testers</title>
+    <script lang="javascript">
+        // Load WASM, set the buttons to do what is expected of them
+    </script>
+</head>
+
+<body>
+    <!-- TODO: Add CSS? fix it so it looks good.  -->
+    <h1>Write a testable expression</h1>
+    <div id="data-input">
+        <input type="text" id="function" name="function" required size="80">
+        <div id="buttons">
+            <button id="get-all" type="button">
+                Full Table
+            </button>
+            <button id="get-success" type="button">
+                All Successes
+            </button>
+            <button id="get-failures" type="button">
+                All Failures
+            </button>
+        </div>
+    </div>
+    <div id="data-output">
+        Some Data ;P
+    </div>
+</body>
+
 </html>
