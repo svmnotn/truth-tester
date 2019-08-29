@@ -1,22 +1,23 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="description" content="A thing that does stuff">
     <meta name="author" content="Victor M. Suarez">
+    <script lang="javascript" src="index.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <title>Truth Testers</title>
-    <script lang="javascript">
-        // Load WASM, set the buttons to do what is expected of them
-    </script>
 </head>
 
-<body>
+<body class="body">
     <!-- TODO: Add CSS? fix it so it looks good.  -->
     <h1>Write a testable expression</h1>
-    <div id="data-input">
+    <div id="data-input" class="data-in">
         <input type="text" id="function" name="function" required size="80">
-        <div id="buttons">
+        <div id="buttons" class="btn-group">
             <button id="get-all" type="button">
                 Full Table
             </button>
@@ -27,10 +28,55 @@
                 All Failures
             </button>
         </div>
+        <div id="options" class="options">
+            <button id="show-options" type="button" onclick="toggle('option-fields')">
+                Options
+            </button>
+            <div id="option-fields" hidden>
+                <div>
+                    <label for="lit-true">Literal True</label>
+                    <input type="text" id="lit-true" name="literal-true" required size="80">
+                </div>
+                <div>
+                    <label for="lit-false">Literal False</label>
+                    <input type="text" id="lit-false" name="literal-false" required size="80">
+                </div>
+                <div>
+                    <label for="not">Not</label>
+                    <input type="text" id="not" name="not" required size="80">
+                </div>
+                <div>
+                    <label for="and">And</label>
+                    <input type="text" id="and" name="and" required size="80">
+                </div>
+                <div>
+                    <label for="xor">Exclusive Or</label>
+                    <input type="text" id="xor" name="xor" required size="80">
+                </div>
+                <div>
+                    <label for="or">Or</label>
+                    <input type="text" id="or" name="or" required size="80">
+                </div>
+                <div>
+                    <label for="implication">Implication</label>
+                    <input type="text" id="implication" name="implication" required size="80">
+                </div>
+                <div>
+                    <label for="equality">Equality</label>
+                    <input type="text" id="equality" name="equality" required size="80">
+                </div>
+                <div>
+                    <label for="left-paren">Left Parenthesis</label>
+                    <input type="text" id="left-paren" name="left-paren" required size="80">
+                </div>
+                <div>
+                    <label for="right-paren">Right Parenthesis</label>
+                    <input type="text" id="right-paren" name="right-paren" required size="80">
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="data-output">
-        Some Data ;P
-    </div>
+    <div id="data-output" class="data-out"></div>
 </body>
 
 </html>

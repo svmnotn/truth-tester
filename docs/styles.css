@@ -1,0 +1,33 @@
+.body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: grey;
+}
+.data-in {
+    border-width: 5em;
+    background-color: red;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+.btn-group {
+    display: flex;
+    background-color: violet;
+    align-items: center;
+    flex-direction: row;
+}
+.options {
+    border-width: 5em;
+    background-color: blue;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+.data-out {
+    border-width: 5em;
+    background-color: blueviolet;
+}
