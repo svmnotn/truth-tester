@@ -1,6 +1,6 @@
 //! Here are all the testing related things
 //!
-#![cfg_attr(feature = "parsing", doc(include = "tester/parsing.md"))]
+#![cfg_attr(feature = "parsing", doc(include = "parsing.md"))]
 //!
 //! ### Using `truth_tester` with a function
 //! To use `truth_tester` with a programatically defined function
