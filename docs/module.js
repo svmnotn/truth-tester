@@ -1,0 +1,1 @@
+// Here should go the WASM module code
