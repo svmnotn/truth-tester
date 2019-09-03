@@ -1,33 +1,74 @@
-.body {
+html {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    margin: 3% 8%;
+    background: -moz-linear-gradient(155deg, #1a2980, #259492);
+    background: -webkit-linear-gradient(155deg, #1a2980, #259492); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(155deg, #1a2980, #259492); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+content {
     display: flex;
     align-items: center;
+    justify-content: center;
     flex-direction: column;
-    background-color: grey;
 }
+
+#title {
+    text-align: center;
+    color: white;
+}
+
 .data-in {
+    padding: 2em;
+    border-radius: 10px;
     border-width: 5em;
-    background-color: red;
+    background-color: white;
     align-items: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
-
 }
 .btn-group {
     display: flex;
-    background-color: violet;
     align-items: center;
     flex-direction: row;
 }
 .options {
     border-width: 5em;
-    background-color: blue;
     align-items: center;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
 }
 .data-out {
     border-width: 5em;
-    background-color: blueviolet;
+}
+
+table {
+    display: grid;
+    border-collapse: collapse;
+    min-width: 50%;
+    grid-template-columns:
+        minmax(150px, 2fr)
+        minmax(150px, 3fr)
+}
+
+thead, tbody, tr {
+    display: contents;
+}
+
+th, td {
+    padding: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+td {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -11,74 +10,80 @@
     <script lang="javascript" src="index.js"></script>
     <script lang="javascript" src="module.js" type=module></script>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <title>Truth Testers</title>
 </head>
 
-<body class="body">
+<body>
     <!-- TODO: Add CSS? fix it so it looks good.  -->
-    <h1>Write a testable expression</h1>
-    <div id="data-input" class="data-in">
-        <input type="text" id="function" name="function" required size="80">
-        <div id="buttons" class="btn-group">
-            <button id="get-all" type="button">
-                Full Table
-            </button>
-            <button id="get-success" type="button">
-                All Successes
-            </button>
-            <button id="get-failures" type="button">
-                All Failures
-            </button>
-        </div>
-        <div id="options" class="options">
+    <div class="content">
+        <h1 id="title">Write a testable expression</h1>
+
+        <div id="data-input" class="data-in">
+            <input type="text" id="function" name="function" required size="80">
+            <div id="buttons" class="btn-group">
+                <button id="get-all" type="button">
+                    Full Table
+                </button>
+                <button id="get-success" type="button">
+                    All Successes
+                </button>
+                <button id="get-failures" type="button">
+                    All Failures
+                </button>
+            </div>
             <button id="show-options" type="button" onclick="toggle('option-fields')">
                 Options
             </button>
-            <div id="option-fields" hidden>
-                <div>
-                    <label for="lit-true">Literal True</label>
-                    <input type="text" id="lit-true" name="literal-true" required size="80">
-                </div>
-                <div>
-                    <label for="lit-false">Literal False</label>
-                    <input type="text" id="lit-false" name="literal-false" required size="80">
-                </div>
-                <div>
-                    <label for="not">Not</label>
-                    <input type="text" id="not" name="not" required size="80">
-                </div>
-                <div>
-                    <label for="and">And</label>
-                    <input type="text" id="and" name="and" required size="80">
-                </div>
-                <div>
-                    <label for="xor">Exclusive Or</label>
-                    <input type="text" id="xor" name="xor" required size="80">
-                </div>
-                <div>
-                    <label for="or">Or</label>
-                    <input type="text" id="or" name="or" required size="80">
-                </div>
-                <div>
-                    <label for="implication">Implication</label>
-                    <input type="text" id="implication" name="implication" required size="80">
-                </div>
-                <div>
-                    <label for="equality">Equality</label>
-                    <input type="text" id="equality" name="equality" required size="80">
-                </div>
-                <div>
-                    <label for="left-paren">Left Parenthesis</label>
-                    <input type="text" id="left-paren" name="left-paren" required size="80">
-                </div>
-                <div>
-                    <label for="right-paren">Right Parenthesis</label>
-                    <input type="text" id="right-paren" name="right-paren" required size="80">
+            <div id="options" class="options">
+                <div id="option-fields" hidden>
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><label for="lit-true">Literal True</label></td>
+                                <td><input type="text" id="lit-true" name="literal-true" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="lit-false">Literal False</label></td>
+                                <td><input type="text" id="lit-false" name="literal-false" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="not">Not</label></td>
+                                <td><input type="text" id="not" name="not" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="and">And</label></td>
+                                <td><input type="text" id="and" name="and" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="xor">Exclusive Or</label></td>
+                                <td><input type="text" id="xor" name="xor" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="or">Or</label></td>
+                                <td><input type="text" id="or" name="or" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="implication">Implication</label></td>
+                                <td><input type="text" id="implication" name="implication" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="equality">Equality</label></td>
+                                <td><input type="text" id="equality" name="equality" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="left-paren">Left Parenthesis</label></td>
+                                <td><input type="text" id="left-paren" name="left-paren" required size="80"></td>
+                            </tr>
+                            <tr>
+                                <td><label for="right-paren">Right Parenthesis</label></td>
+                                <td><input type="text" id="right-paren" name="right-paren" required size="80"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-    </div>
-    <div id="data-output" class="data-out"></div>
+        <div id="data-output" class="data-out"></div>
 </body>
-
 </html>
