@@ -23,4 +23,12 @@ jobs:
     - name: Build parallel
       run: cargo build --verbose --no-default-features --fetures parallel
     - name: Run tests
-      run: cargo test --verbose
+      run: cargo test --verbose\
+  wasm-build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v1
+        - name: Add wasm Target
+          run: rustup target add wasm32-unknown-unknown
+        - name: Build for wasm
+          run: cargo build --verbose --target wasm32-unknown-unknown
