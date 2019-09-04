@@ -3,11 +3,11 @@ use alloc::vec::Vec;
 
 /// Boolean Expression Parser
 #[derive(Debug)]
-pub struct Parser<'t, 'l, 'i: 't> {
-    lexer: Lexer<'t, 'l, 'i>,
+pub struct Parser<'t, 'i: 't> {
+    lexer: Lexer<'t, 'i>,
 }
 
-impl<'t, 'i: 't> Parser<'t, 'static, 'i> {
+impl<'t, 'i: 't> Parser<'t, 'i> {
     /// Create a new Parser with the
     /// Default [`TokenLiterals`].
     ///
@@ -19,12 +19,12 @@ impl<'t, 'i: 't> Parser<'t, 'static, 'i> {
     }
 }
 
-impl<'t, 'l, 'i: 't> Parser<'t, 'l, 'i> {
+impl<'t, 'i: 't> Parser<'t, 'i> {
     /// Create a new Parser with the given
     /// [`TokenLiterals`].
     ///
     /// [`TokenLiterals`]: `TokenLiterals`
-    pub fn parse_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
+    pub fn parse_with_literals(input: &'i str, literals: TokenLiterals) -> Self {
         Self {
             lexer: Lexer::lex_with_literals(input, literals),
         }

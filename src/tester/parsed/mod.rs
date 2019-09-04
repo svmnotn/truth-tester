@@ -27,7 +27,7 @@ impl<'t> Tester<Tokens<'t>> {
     ///
     /// [`Tester`]: `Tester`
     /// [`TokenLiterals`]: `TokenLiterals`
-    pub fn parse_with_literals<'l, 'i: 't>(inp: &'i str, literals: TokenLiterals<'l>) -> Self {
+    pub fn parse_with_literals<'i: 't>(inp: &'i str, literals: TokenLiterals) -> Self {
         let expr = Parser::parse_with_literals(inp, literals).shunting_yard();
         Self {
             state: State::default(expr.var_count()),

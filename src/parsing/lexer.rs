@@ -1,17 +1,17 @@
 use super::{Token, TokenLiterals};
-use alloc::{collections::btree_map::BTreeMap, vec::Vec};
+use alloc::{collections::btree_map::BTreeMap, string::String, vec::Vec};
 use core::{iter::Peekable, str::SplitWhitespace};
 
 /// Boolean Expression Lexer
 #[derive(Debug)]
-pub struct Lexer<'t, 'l, 'i: 't> {
-    literals: TokenLiterals<'l>,
+pub struct Lexer<'t, 'i: 't> {
+    literals: TokenLiterals,
     input: Peekable<SplitWhitespace<'i>>,
     curr_str: &'t str,
     var_map: BTreeMap<&'t str, usize>,
 }
 
-impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
+impl<'t, 'i: 't> Lexer<'t, 'i> {
     /// Create a Lexer using the Default
     /// [`TokenLiterals`].
     ///
@@ -28,11 +28,11 @@ impl<'t, 'i: 't> Lexer<'t, 'static, 'i> {
     }
 }
 
-impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
+impl<'t, 'i: 't> Lexer<'t, 'i> {
     /// Create a Lexer with the given [`TokenLiterals`]
     ///
     /// [`TokenLiterals`]: `TokenLiterals`
-    pub fn lex_with_literals(input: &'i str, literals: TokenLiterals<'l>) -> Self {
+    pub fn lex_with_literals(input: &'i str, literals: TokenLiterals) -> Self {
         let mut input = input.split_whitespace().peekable();
         let curr_str = input.next().unwrap_or("");
         Self {
@@ -53,7 +53,7 @@ impl<'t, 'l, 'i: 't> Lexer<'t, 'l, 'i> {
     }
 }
 
-impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
+impl<'t, 'i: 't> Iterator for Lexer<'t, 'i> {
     type Item = Token<'t>;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -62,7 +62,7 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
         #[inline]
         fn find<'i, 'l>(
             inp: &'i str,
-            tokens: &'l [&'l str],
+            tokens: &[String],
             t: Token<'i>,
         ) -> Option<(Token<'i>, usize)> {
             tokens
@@ -93,16 +93,16 @@ impl<'t, 'l, 'i: 't> Iterator for Lexer<'t, 'l, 'i> {
 
             for i in 0..self.curr_str.len() {
                 let search_str = &self.curr_str[i..];
-                if let Some((val, len)) = find(search_str, self.literals.lit_true, Literal(true))
-                    .or_else(|| find(search_str, self.literals.lit_false, Literal(false)))
-                    .or_else(|| find(search_str, self.literals.not, Not))
-                    .or_else(|| find(search_str, self.literals.and, And))
-                    .or_else(|| find(search_str, self.literals.xor, Xor))
-                    .or_else(|| find(search_str, self.literals.or, Or))
-                    .or_else(|| find(search_str, self.literals.implication, Implication))
-                    .or_else(|| find(search_str, self.literals.equality, Equality))
-                    .or_else(|| find(search_str, self.literals.left_paren, LParen))
-                    .or_else(|| find(search_str, self.literals.right_paren, RParen))
+                if let Some((val, len)) = find(search_str, &self.literals.lit_true, Literal(true))
+                    .or_else(|| find(search_str, &self.literals.lit_false, Literal(false)))
+                    .or_else(|| find(search_str, &self.literals.not, Not))
+                    .or_else(|| find(search_str, &self.literals.and, And))
+                    .or_else(|| find(search_str, &self.literals.xor, Xor))
+                    .or_else(|| find(search_str, &self.literals.or, Or))
+                    .or_else(|| find(search_str, &self.literals.implication, Implication))
+                    .or_else(|| find(search_str, &self.literals.equality, Equality))
+                    .or_else(|| find(search_str, &self.literals.left_paren, LParen))
+                    .or_else(|| find(search_str, &self.literals.right_paren, RParen))
                 {
                     found_idx = i;
                     found_val = Some(val);

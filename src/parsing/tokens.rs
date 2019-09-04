@@ -1,9 +1,11 @@
+use alloc::{string::String, vec, vec::Vec};
+
 /// A full expression, which is made of [`Token`]s
 ///
 /// [`Token`]: `Token`
 pub struct Tokens<'a> {
-    pub(super) toks: alloc::vec::Vec<Token<'a>>,
-    pub(super) var_map: alloc::vec::Vec<&'a str>,
+    pub(super) toks: Vec<Token<'a>>,
+    pub(super) var_map: Vec<&'a str>,
     pub(super) var_count: usize,
 }
 
@@ -101,103 +103,125 @@ impl<'a> Token<'a> {
 ///
 /// [`Token`]: `Token`
 #[derive(Debug, PartialEq)]
-pub struct TokenLiterals<'a> {
+pub struct TokenLiterals {
     /// An array representing all the forms
     /// that the [`Token::Literal(true)`] value
     /// can take in any given Boolean Expression.
     ///
     /// [`Token::Literal(true)`]: `Token::Literal`
-    pub lit_true: &'a [&'a str],
+    pub lit_true: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Literal(false)`] value
     /// can take in any given Boolean Expression.
     ///
     /// [`Token::Literal(false)`]: `Token::Literal`
-    pub lit_false: &'a [&'a str],
+    pub lit_false: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Not`] token can
     /// take in any given Boolean Expression.
     ///
     /// [`Token::Not`]: `Token::Not`
-    pub not: &'a [&'a str],
+    pub not: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::And`] token can
     /// take in any given Boolean Expression.
     ///
     /// [`Token::And`]: `Token::And`
-    pub and: &'a [&'a str],
+    pub and: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Xor`] token can take
     /// in any given Boolean Expression.
     ///
     /// [`Token::Xor`]: `Token::Xor`
-    pub xor: &'a [&'a str],
+    pub xor: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Or`] token can
     /// take in any given Boolean Expression.
     ///
     /// [`Token::Or`]: `Token::Or`
-    pub or: &'a [&'a str],
+    pub or: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Implication`] token
     /// can take in any given Boolean Expression.
     ///
     /// [`Token::Implication`]: `Token::Implication`
-    pub implication: &'a [&'a str],
+    pub implication: Vec<String>,
     /// An array representing all the forms
     /// that the [`Token::Equality`] token
     /// can take in any given Boolean Expression.
     ///
     /// [`Token::Equality`]: `Token::Equality`
-    pub equality: &'a [&'a str],
+    pub equality: Vec<String>,
     /// An array representing all the forms
     /// that a [`Token::LParen`] token can
     /// take in any given Boolean Expression.
     ///
     /// [`Token::LParen`]: `Token::LParen`
-    pub left_paren: &'a [&'a str],
+    pub left_paren: Vec<String>,
     /// An array representing all the forms
     /// that a [`Token::RParen`] token can
     /// take in any given Boolean Expression.
     ///
     /// [`Token::RParen`]: `Token::RParen`
-    pub right_paren: &'a [&'a str],
+    pub right_paren: Vec<String>,
 }
 
 /// The default set of values for the [`TokenLiterals`] struct
 /// are as follows:
 /// ```
 /// # use truth_tester::parsing::TokenLiterals;
-/// # assert_eq!(TokenLiterals::default(), 
+/// # assert_eq!(TokenLiterals::default(),
 /// TokenLiterals {
-///     lit_true: &["true"],
-///     lit_false: &["false"],
-///     not: &["¬", "not", "!", "~"],
-///     and: &["∧", "and", "&&", "&", "*"],
-///     xor: &["⊕", "xor", "^"],
-///     or: &["∨", "or", "||", "|", "+"],
-///     implication: &["→", "->", "=>"],
-///     equality: &["≡", "<=>", "==", "="],
-///     left_paren: &["(", "{", "["],
-///     right_paren: &[")", "}", "]"],
+///     lit_true: vec!["true"]
+/// #.into_iter().map(Into::into).collect(),
+///     lit_false: vec!["false"]
+/// #.into_iter().map(Into::into).collect(),
+///     not: vec!["¬", "not", "!", "~"]
+/// #.into_iter().map(Into::into).collect(),
+///     and: vec!["∧", "and", "&&", "&", "*"]
+/// #.into_iter().map(Into::into).collect(),
+///     xor: vec!["⊕", "xor", "^"]
+/// #.into_iter().map(Into::into).collect(),
+///     or: vec!["∨", "or", "||", "|", "+"]
+/// #.into_iter().map(Into::into).collect(),
+///     implication: vec!["→", "->", "=>"]
+/// #.into_iter().map(Into::into).collect(),
+///     equality: vec!["≡", "<=>", "==", "="]
+/// #.into_iter().map(Into::into).collect(),
+///     left_paren: vec!["(", "{", "["]
+/// #.into_iter().map(Into::into).collect(),
+///     right_paren: vec![")", "}", "]"]
+/// #.into_iter().map(Into::into).collect(),
 /// }
 /// # );
 /// ```
 ///
 /// [`TokenLiterals`]: `TokenLiterals`
-impl Default for TokenLiterals<'static> {
+impl Default for TokenLiterals {
     fn default() -> Self {
         Self {
-            lit_true: &["true"],
-            lit_false: &["false"],
-            not: &["¬", "not", "!", "~"],
-            and: &["∧", "and", "&&", "&", "*"],
-            xor: &["⊕", "xor", "^"],
-            or: &["∨", "or", "||", "|", "+"],
-            implication: &["→", "->", "=>"],
-            equality: &["≡", "<=>", "==", "="],
-            left_paren: &["(", "{", "["],
-            right_paren: &[")", "}", "]"],
+            lit_true: vec!["true"].into_iter().map(Into::into).collect(),
+            lit_false: vec!["false"].into_iter().map(Into::into).collect(),
+            not: vec!["¬", "not", "!", "~"]
+                .into_iter()
+                .map(Into::into)
+                .collect(),
+            and: vec!["∧", "and", "&&", "&", "*"]
+                .into_iter()
+                .map(Into::into)
+                .collect(),
+            xor: vec!["⊕", "xor", "^"].into_iter().map(Into::into).collect(),
+            or: vec!["∨", "or", "||", "|", "+"]
+                .into_iter()
+                .map(Into::into)
+                .collect(),
+            implication: vec!["→", "->", "=>"].into_iter().map(Into::into).collect(),
+            equality: vec!["≡", "<=>", "==", "="]
+                .into_iter()
+                .map(Into::into)
+                .collect(),
+            left_paren: vec!["(", "{", "["].into_iter().map(Into::into).collect(),
+            right_paren: vec![")", "}", "]"].into_iter().map(Into::into).collect(),
         }
     }
 }
