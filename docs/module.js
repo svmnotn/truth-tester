@@ -7,9 +7,10 @@ async function initialize() {
     // Initialize the Storage
     init_storage();
     // set all the buttons to do their thing
-    document.getElementById("get-all").onclick = render_all;
-    document.getElementById("get-success").onclick = render_successes;
-    document.getElementById("get-failures").onclick = render_failures;
+    const text = document.getElementById("function");
+    document.getElementById("get-all").onclick = function () { render_all(text.nodeValue); };
+    document.getElementById("get-success").onclick = function () { render_successes(text.nodeValue); };
+    document.getElementById("get-failures").onclick = function () { render_failures(text.nodeValue); };
     /*
     document.getElementById("lit-true").oninput;
     document.getElementById("lit-false").oninput;
