@@ -60,7 +60,7 @@ impl<'t, 'i: 't> Iterator for Lexer<'t, 'i> {
         use Token::*;
 
         #[inline]
-        fn find<'i, 'l>(
+        fn find<'i>(
             inp: &'i str,
             tokens: &[String],
             t: Token<'i>,
