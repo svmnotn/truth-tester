@@ -173,25 +173,25 @@ pub struct TokenLiterals {
 /// # assert_eq!(TokenLiterals::default(),
 /// TokenLiterals {
 ///     lit_true: vec!["true"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     lit_false: vec!["false"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     not: vec!["¬", "not", "!", "~"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     and: vec!["∧", "and", "&&", "&", "*"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     xor: vec!["⊕", "xor", "^"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     or: vec!["∨", "or", "||", "|", "+"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     implication: vec!["→", "->", "=>"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     equality: vec!["≡", "<=>", "==", "="]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     left_paren: vec!["(", "{", "["]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 ///     right_paren: vec![")", "}", "]"]
-/// #.into_iter().map(Into::into).collect(),
+/// # .into_iter().map(Into::into).collect(),
 /// }
 /// # );
 /// ```
