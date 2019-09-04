@@ -8,9 +8,9 @@ async function initialize() {
     init_storage();
     // set all the buttons to do their thing
     const text = document.getElementById("function");
-    document.getElementById("get-all").onclick = function () { render_all(text.nodeValue); };
-    document.getElementById("get-success").onclick = function () { render_successes(text.nodeValue); };
-    document.getElementById("get-failures").onclick = function () { render_failures(text.nodeValue); };
+    document.getElementById("get-all").onclick = function () { render_all(text.value); };
+    document.getElementById("get-success").onclick = function () { render_successes(text.value); };
+    document.getElementById("get-failures").onclick = function () { render_failures(text.value); };
     /*
     document.getElementById("lit-true").oninput;
     document.getElementById("lit-false").oninput;
