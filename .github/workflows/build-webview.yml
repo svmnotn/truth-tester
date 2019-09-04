@@ -1,0 +1,15 @@
+name: Does the webview still build?
+
+on:
+  push:
+    paths:
+      - 'docs/truth-tester-webview/*'   # run workflow is something inside webview changes
+jobs:
+  webview-build:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Add wasm Target
+        run: rustup target add wasm32-unknown-unknown
+      - name: Build for wasm
+        run: cd docs/truth-tester-webview && cargo build --verbose --target wasm32-unknown-unknown
