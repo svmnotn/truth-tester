@@ -40,7 +40,7 @@ parallel = ["rayon", "tester"]
 
 [dependencies]
 bit_field = { version = "0.10.0", optional = true }
-rayon = { version = "1.1.0", optional = true }
+rayon = { version = "1.2.0", optional = true }
 
 [profile.release]
 opt-level = 3
