@@ -1,0 +1,26 @@
+name: Does the library still build on all platforms?
+
+on:
+  push:
+    path:
+      - 'Cargo.toml' # Run workflow if we change dependencies
+      - 'src/*'      # Run workflow for all file paths inside src
+      - '!/docs/*'   # Don't run workflow when files are only in the /docs directory
+jobs:
+  os-builds:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build default features
+      run: cargo build --verbose
+    - name: Build parsing
+      run: cargo build --verbose --no-default-features --fetures parsing
+    - name: Build tester
+      run: cargo build --verbose --no-default-features --fetures tester
+    - name: Build parallel
+      run: cargo build --verbose --no-default-features --fetures parallel
+    - name: Run tests
+      run: cargo test --verbose
