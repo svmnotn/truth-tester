@@ -49,12 +49,12 @@ jobs:
     - name: Run tests
       run: cargo test --verbose\
   wasm-build:
-        runs-on: ubuntu-latest
-        steps:
-        - uses: actions/checkout@v1
-        - name: Add wasm Target
-          run: rustup target add wasm32-unknown-unknown
-        - name: Default to nightly
-          run: rustup default nightly
-        - name: Build for wasm
-          run: cargo build --verbose --target wasm32-unknown-unknown
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Add wasm Target
+      run: rustup target add wasm32-unknown-unknown
+    - name: Default to nightly
+      run: rustup default nightly
+    - name: Build for wasm
+      run: cargo build --verbose --target wasm32-unknown-unknown
