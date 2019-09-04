@@ -2,7 +2,7 @@ name: Does the library still build on all platforms?
 
 on:
   push:
-    path:
+    paths:
       - 'Cargo.toml' # Run workflow if we change dependencies
       - 'src/*'      # Run workflow for all file paths inside src
       - '!/docs/*'   # Don't run workflow when files are only in the /docs directory
