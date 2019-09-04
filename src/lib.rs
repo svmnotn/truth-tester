@@ -9,10 +9,10 @@
 //! [`parsing`] module.
 //!
 //! ## Using `truth_tester` for its Testing capabilities
-//! 
+//!
 //! For the complete guide check the [`tester`] module docs.
-//! 
-//! But be aware that if you disable default features, 
+//!
+//! But be aware that if you disable default features,
 //! by specifying so in your Cargo.toml
 //! ```toml
 //! [dependencies.truth_tester]
@@ -28,7 +28,7 @@
 //! ```
 //! As it is needed for the [`tester`] module to be
 //! included in the code.
-//! 
+//!
 //! For testing parsed expressions, the `parsing` feature
 //! also needs to be enabled.
 //! ```toml
@@ -39,10 +39,10 @@
 //! ```
 //!
 //! ## Using `truth_tester` as a boolean expression parser
-//! 
+//!
 //! For the complete guide check the [`parsing`] module docs.
-//! 
-//! But be aware that if you disable default features, 
+//!
+//! But be aware that if you disable default features,
 //! by specifying so in your Cargo.toml
 //! ```toml
 //! [dependencies.truth_tester]
@@ -58,10 +58,9 @@
 //! ```
 //! As it is needed for the [`parsing`] module to be
 //! included in the code.
-//! 
+//!
 #![cfg_attr(feature = "parsing", doc = "[`parsing`]: `parsing`")]
 #![cfg_attr(feature = "tester", doc = "[`tester`]: `tester`")]
-
 #![no_std]
 #![warn(missing_docs)]
 // This is used in order to have `ExprFn` exist,

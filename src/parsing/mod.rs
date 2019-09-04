@@ -1,6 +1,6 @@
 //! Here are all the Boolean Expression Parsing
 //! data structures
-//! 
+//!
 //! ### Lexing
 //! To use `truth_tester` to lex a boolean expression, simply import
 //! the [`parsing`] module's [`Lexer`], [`Token`], and

@@ -24,7 +24,7 @@
 //!     println!("The result of our expression in this iteration is {}", val);
 //! }
 //! ```
-//! 
+//!
 //! [`Tester`]: `crate::tester::Tester`
 #![cfg_attr(feature = "parsing", doc = "[`Tester::parse`]: `crate::tester::Tester::parse`")]
 //! [`Tester::new`]: `crate::tester::Tester::new`
