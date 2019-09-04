@@ -14,6 +14,16 @@ export function render_successes(input: string): void;
 * @param {string} input 
 */
 export function render_failures(input: string): void;
+/**
+* @param {string} id 
+* @param {string} value 
+*/
+export function change_value(id: string, value: string): void;
+/**
+* @param {string} id 
+* @returns {string} 
+*/
+export function get_value(id: string): string;
 
 /**
 * If `module_or_path` is {RequestInfo}, makes a request and

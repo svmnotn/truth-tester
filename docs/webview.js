@@ -94,6 +94,40 @@ export function render_failures(input) {
     wasm.render_failures(passStringToWasm(input), WASM_VECTOR_LEN);
 }
 
+/**
+* @param {string} id
+* @param {string} value
+*/
+export function change_value(id, value) {
+    wasm.change_value(passStringToWasm(id), WASM_VECTOR_LEN, passStringToWasm(value), WASM_VECTOR_LEN);
+}
+
+let cachegetInt32Memory = null;
+function getInt32Memory() {
+    if (cachegetInt32Memory === null || cachegetInt32Memory.buffer !== wasm.memory.buffer) {
+        cachegetInt32Memory = new Int32Array(wasm.memory.buffer);
+    }
+    return cachegetInt32Memory;
+}
+
+let cachedTextDecoder = new TextDecoder('utf-8');
+
+function getStringFromWasm(ptr, len) {
+    return cachedTextDecoder.decode(getUint8Memory().subarray(ptr, ptr + len));
+}
+/**
+* @param {string} id
+* @returns {string}
+*/
+export function get_value(id) {
+    const retptr = 8;
+    const ret = wasm.get_value(retptr, passStringToWasm(id), WASM_VECTOR_LEN);
+    const memi32 = getInt32Memory();
+    const v0 = getStringFromWasm(memi32[retptr / 4 + 0], memi32[retptr / 4 + 1]).slice();
+    wasm.__wbindgen_free(memi32[retptr / 4 + 0], memi32[retptr / 4 + 1] * 1);
+    return v0;
+}
+
 const heap = new Array(32);
 
 heap.fill(undefined);
@@ -116,12 +150,6 @@ function takeObject(idx) {
     return ret;
 }
 
-let cachedTextDecoder = new TextDecoder('utf-8');
-
-function getStringFromWasm(ptr, len) {
-    return cachedTextDecoder.decode(getUint8Memory().subarray(ptr, ptr + len));
-}
-
 function addHeapObject(obj) {
     if (heap_next === heap.length) heap.push(heap.length + 1);
     const idx = heap_next;
@@ -137,14 +165,6 @@ function handleError(e) {
 
 function isLikeNone(x) {
     return x === undefined || x === null;
-}
-
-let cachegetInt32Memory = null;
-function getInt32Memory() {
-    if (cachegetInt32Memory === null || cachegetInt32Memory.buffer !== wasm.memory.buffer) {
-        cachegetInt32Memory = new Int32Array(wasm.memory.buffer);
-    }
-    return cachegetInt32Memory;
 }
 
 function debugString(val) {
@@ -260,6 +280,12 @@ function init(module) {
     };
     imports.wbg.__widl_f_log_1_ = function(arg0) {
         console.log(getObject(arg0));
+    };
+    imports.wbg.__widl_f_log_2_ = function(arg0, arg1) {
+        console.log(getObject(arg0), getObject(arg1));
+    };
+    imports.wbg.__widl_f_log_3_ = function(arg0, arg1, arg2) {
+        console.log(getObject(arg0), getObject(arg1), getObject(arg2));
     };
     imports.wbg.__wbindgen_object_clone_ref = function(arg0) {
         const ret = getObject(arg0);
