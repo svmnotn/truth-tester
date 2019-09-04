@@ -1,0 +1,40 @@
+name: Do we still build on all supported platforms?
+
+on:
+  schedule:
+    # Every Sunday, run this action
+    - cron: '0 0 * * 0'
+jobs:
+  os-builds:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build default features
+      run: cargo build --verbose
+    - name: Build parsing
+      run: cargo build --verbose --no-default-features --fetures parsing
+    - name: Build tester
+      run: cargo build --verbose --no-default-features --fetures tester
+    - name: Build parallel
+      run: cargo build --verbose --no-default-features --fetures parallel
+    - name: Run tests
+      run: cargo test --verbose
+  wasm-build:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Add wasm Target
+        run: rustup target add wasm32-unknown-unknown
+      - name: Build for wasm
+        run: cargo build --verbose --target wasm32-unknown-unknown
+  webview-build:
+      runs-on: ubuntu-latest
+      steps:
+      - uses: actions/checkout@v1
+      - name: Add wasm Target
+        run: rustup target add wasm32-unknown-unknown
+      - name: Build for wasm
+        run: cd docs/truth-tester-webview && cargo build --verbose --target wasm32-unknown-unknown
