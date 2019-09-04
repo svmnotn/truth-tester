@@ -7,11 +7,31 @@ on:
       - 'src/*'      # Run workflow for all file paths inside src
       - '!/docs/*'   # Don't run workflow when files are only in the /docs directory
 jobs:
+  # we have to separate out the mac build because github's image does not have rust installed
+  mac-build:
+    runs-on: macOS-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build default features
+      run: cargo build --verbose
+      continue-on-error: true
+    - name: Build parsing
+      run: cargo build --verbose --no-default-features --fetures parsing
+      continue-on-error: true
+    - name: Build tester
+      run: cargo build --verbose --no-default-features --fetures tester
+      continue-on-error: true
+    - name: Build parallel
+      run: cargo build --verbose --no-default-features --fetures parallel
+      continue-on-error: true
+    - name: Run tests
+      run: cargo test --verbose
+      continue-on-error: true
   os-builds:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v1
     - name: Build default features
