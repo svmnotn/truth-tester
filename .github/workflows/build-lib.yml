@@ -8,12 +8,8 @@ on:
       - '!/docs/*'   # Don't run workflow when files are only in the /docs directory
 jobs:
   # we have to separate out the mac build because github's image does not have rust installed
-  # let's have windows there too, just in case
   mac-build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macOS-latest, windows-latest]
+    runs-on: macOS-latest
     steps:
     - uses: actions/checkout@v1
     - name: Default to nightly
@@ -23,22 +19,22 @@ jobs:
       run: cargo build --verbose
       continue-on-error: true
     - name: Build parsing
-      run: cargo build --verbose --no-default-features --fetures parsing
+      run: cargo build --verbose --no-default-features --features parsing
       continue-on-error: true
     - name: Build tester
-      run: cargo build --verbose --no-default-features --fetures tester
+      run: cargo build --verbose --no-default-features --features tester
       continue-on-error: true
     - name: Build parallel
-      run: cargo build --verbose --no-default-features --fetures parallel
+      run: cargo build --verbose --no-default-features --features parallel
       continue-on-error: true
     - name: Run tests
       run: cargo test --verbose
       continue-on-error: true
   os-builds:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macOS-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
     - uses: actions/checkout@v1
     - name: Default to nightly
@@ -46,20 +42,20 @@ jobs:
     - name: Build default features
       run: cargo build --verbose
     - name: Build parsing
-      run: cargo build --verbose --no-default-features --fetures parsing
+      run: cargo build --verbose --no-default-features --features parsing
     - name: Build tester
-      run: cargo build --verbose --no-default-features --fetures tester
+      run: cargo build --verbose --no-default-features --features tester
     - name: Build parallel
-      run: cargo build --verbose --no-default-features --fetures parallel
+      run: cargo build --verbose --no-default-features --features parallel
     - name: Run tests
       run: cargo test --verbose\
   wasm-build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Add wasm Target
-      run: rustup target add wasm32-unknown-unknown
     - name: Default to nightly
       run: rustup default nightly
+    - name: Add wasm Target
+      run: rustup target add wasm32-unknown-unknown
     - name: Build for wasm
       run: cargo build --verbose --target wasm32-unknown-unknown

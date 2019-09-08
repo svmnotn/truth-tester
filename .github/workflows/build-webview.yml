@@ -9,9 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Add wasm Target
-      run: rustup target add wasm32-unknown-unknown
     - name: Default to nightly
       run: rustup default nightly
+    - name: Add wasm Target
+      run: rustup target add wasm32-unknown-unknown
     - name: Build for wasm
       run: cd docs/truth-tester-webview && cargo +nightly build --verbose --target wasm32-unknown-unknown
