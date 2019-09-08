@@ -3,6 +3,7 @@ name = "truth-tester-webview"
 version = "0.1.0"
 authors = ["Victor M. Suarez <svmnotn@gmail.com>"]
 edition = "2018"
+description = "A web based GUI for the truth-tester project"
 license = "Apache-2.0 OR MIT"
 
 [lib]
