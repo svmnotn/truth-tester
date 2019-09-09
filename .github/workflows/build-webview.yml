@@ -3,8 +3,7 @@ name: Does the webview still build?
 on:
   push:
     paths:
-      - '*.rs'      # Run workflow for all code files
-      - '*.toml'    # Run workflow if we change dependencies
+      - '*'
       - '!src/*'    # Don't run workflow when files are only in the src directory
 jobs:
   webview-build:
