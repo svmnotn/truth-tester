@@ -43,7 +43,7 @@ impl<'t, 'i: 't> Lexer<'t, 'i> {
         }
     }
 
-    /// Returns a Vec of var_names index by the order
+    /// Returns a Vec of var_names indexed by the order
     /// in which they appear in the expression
     ///
     /// *This function should only be called after
