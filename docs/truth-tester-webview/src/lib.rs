@@ -29,6 +29,11 @@ pub fn render_all(input: &str) {
         &JsValue::from_str("Writting out the truth table of expr '%s'!"),
         &JsValue::from_str(input),
     );
+
+    let window = get_window();
+    let literals = read_storage(&get_storage(&window));
+    let out = get_output_elem(&get_document(&window));
+    out.set_inner_html("Output should go here! With a nice table of all possibilities");
 }
 
 #[wasm_bindgen]
@@ -37,6 +42,11 @@ pub fn render_successes(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is true!"),
         &JsValue::from_str(input),
     );
+
+    let window = get_window();
+    let literals = read_storage(&get_storage(&window));
+    let out = get_output_elem(&get_document(&window));
+    out.set_inner_html("Output should go here! With a nice table of all the times where the expression is true");
 }
 
 #[wasm_bindgen]
@@ -45,6 +55,11 @@ pub fn render_failures(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is false!"),
         &JsValue::from_str(input),
     );
+
+    let window = get_window();
+    let literals = read_storage(&get_storage(&window));
+    let out = get_output_elem(&get_document(&window));
+    out.set_inner_html("Output should go here! With a nice table of all the times where the expression is false");
 }
 
 #[wasm_bindgen]

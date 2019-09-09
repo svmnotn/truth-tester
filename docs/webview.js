@@ -159,12 +159,12 @@ function addHeapObject(obj) {
     return idx;
 }
 
-function handleError(e) {
-    wasm.__wbindgen_exn_store(addHeapObject(e));
-}
-
 function isLikeNone(x) {
     return x === undefined || x === null;
+}
+
+function handleError(e) {
+    wasm.__wbindgen_exn_store(addHeapObject(e));
 }
 
 function debugString(val) {
@@ -250,6 +250,13 @@ function init(module) {
         const ret = getObject(arg0) instanceof Window;
         return ret;
     };
+    imports.wbg.__widl_f_get_element_by_id_Document = function(arg0, arg1, arg2) {
+        const ret = getObject(arg0).getElementById(getStringFromWasm(arg1, arg2));
+        return isLikeNone(ret) ? 0 : addHeapObject(ret);
+    };
+    imports.wbg.__widl_f_set_inner_html_Element = function(arg0, arg1, arg2) {
+        getObject(arg0).innerHTML = getStringFromWasm(arg1, arg2);
+    };
     imports.wbg.__widl_f_get_item_Storage = function(arg0, arg1, arg2, arg3) {
         try {
             const ret = getObject(arg1).getItem(getStringFromWasm(arg2, arg3));
@@ -269,6 +276,10 @@ function init(module) {
         } catch (e) {
             handleError(e)
         }
+    };
+    imports.wbg.__widl_f_document_Window = function(arg0) {
+        const ret = getObject(arg0).document;
+        return isLikeNone(ret) ? 0 : addHeapObject(ret);
     };
     imports.wbg.__widl_f_local_storage_Window = function(arg0) {
         try {
