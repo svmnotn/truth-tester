@@ -3,8 +3,7 @@ name: Does the library still build on all platforms?
 on:
   push:
     paths:
-      - '*.rs'      # Run workflow for all code files
-      - '*.toml'    # Run workflow if we change dependencies
+      - '*'
       - '!docs/*'   # Don't run workflow when files are only in the docs directory
 jobs:
   # we have to separate out the mac build because github's image does not have rust installed
