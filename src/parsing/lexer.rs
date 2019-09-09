@@ -49,7 +49,9 @@ impl<'t, 'i: 't> Lexer<'t, 'i> {
     /// *This function should only be called after
     /// the Lexer has finished*
     pub(crate) fn var_map(&self) -> Vec<&'t str> {
-        self.var_map.iter().map(|(name, _)| *name).collect()
+        let mut v: Vec<(&'t str, usize)> = self.var_map.iter().map(|(k,v)| (*k,*v)).collect();
+        v.sort_unstable_by(|a,b| a.1.partial_cmp(&b.1).expect("Unable to compare"));
+        v.iter().map(|(name, _)| *name).collect()
     }
 }
 
