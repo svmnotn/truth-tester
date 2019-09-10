@@ -134,9 +134,18 @@ heap.fill(undefined);
 
 heap.push(undefined, null, true, false);
 
-function getObject(idx) { return heap[idx]; }
-
 let heap_next = heap.length;
+
+function addHeapObject(obj) {
+    if (heap_next === heap.length) heap.push(heap.length + 1);
+    const idx = heap_next;
+    heap_next = heap[idx];
+
+    heap[idx] = obj;
+    return idx;
+}
+
+function getObject(idx) { return heap[idx]; }
 
 function dropObject(idx) {
     if (idx < 36) return;
@@ -148,15 +157,6 @@ function takeObject(idx) {
     const ret = getObject(idx);
     dropObject(idx);
     return ret;
-}
-
-function addHeapObject(obj) {
-    if (heap_next === heap.length) heap.push(heap.length + 1);
-    const idx = heap_next;
-    heap_next = heap[idx];
-
-    heap[idx] = obj;
-    return idx;
 }
 
 function handleError(e) {
@@ -239,12 +239,12 @@ function init(module) {
     let result;
     const imports = {};
     imports.wbg = {};
-    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
-        takeObject(arg0);
-    };
     imports.wbg.__wbindgen_string_new = function(arg0, arg1) {
         const ret = getStringFromWasm(arg0, arg1);
         return addHeapObject(ret);
+    };
+    imports.wbg.__wbindgen_object_drop_ref = function(arg0) {
+        takeObject(arg0);
     };
     imports.wbg.__widl_instanceof_Window = function(arg0) {
         const ret = getObject(arg0) instanceof Window;
@@ -262,11 +262,15 @@ function init(module) {
         const ret = getObject(arg0).getElementById(getStringFromWasm(arg1, arg2));
         return isLikeNone(ret) ? 0 : addHeapObject(ret);
     };
+    imports.wbg.__widl_f_set_attribute_Element = function(arg0, arg1, arg2, arg3, arg4) {
+        try {
+            getObject(arg0).setAttribute(getStringFromWasm(arg1, arg2), getStringFromWasm(arg3, arg4));
+        } catch (e) {
+            handleError(e)
+        }
+    };
     imports.wbg.__widl_f_set_id_Element = function(arg0, arg1, arg2) {
         getObject(arg0).id = getStringFromWasm(arg1, arg2);
-    };
-    imports.wbg.__widl_f_set_inner_html_Element = function(arg0, arg1, arg2) {
-        getObject(arg0).innerHTML = getStringFromWasm(arg1, arg2);
     };
     imports.wbg.__widl_f_append_with_node_1_Element = function(arg0, arg1) {
         try {
@@ -274,6 +278,13 @@ function init(module) {
         } catch (e) {
             handleError(e)
         }
+    };
+    imports.wbg.__widl_f_create_t_head_HTMLTableElement = function(arg0) {
+        const ret = getObject(arg0).createTHead();
+        return addHeapObject(ret);
+    };
+    imports.wbg.__widl_f_set_text_content_Node = function(arg0, arg1, arg2) {
+        getObject(arg0).textContent = arg1 === 0 ? undefined : getStringFromWasm(arg1, arg2);
     };
     imports.wbg.__widl_f_get_item_Storage = function(arg0, arg1, arg2, arg3) {
         try {
