@@ -83,12 +83,27 @@ pub fn render_all(input: &str) {
         &JsValue::from_str("Writting out the truth table of expr '%s'!"),
         &JsValue::from_str(input),
     );
-    let val = load(input);
-    if let Err(v) = val {
-        console::log_1(&v);
-        return;
+
+    fn doit(input: &str) -> Result<(), JsValue> {
+        let (doc, tester, body) = load(input)?;
+        for (state, res) in tester.eval() {
+            let row = doc.create_element("TR")?;
+            for i in 0..state.var_count() {
+                let col = doc.create_element("TD")?;
+                col.set_text_content(Some(&state.var_at(i).to_string()));
+                row.append_with_node_1(&col)?;
+            }
+            let col = doc.create_element("TD")?;
+            col.set_text_content(Some(&res.to_string()));
+            row.append_with_node_1(&col)?;
+        }
+        Ok(())
     }
-    let (doc, tester, table) = val.unwrap();
+
+    match doit(input) {
+        Ok(_) => (),
+        Err(v) => console::log_1(&v),
+    }
 }
 
 #[wasm_bindgen]
@@ -97,12 +112,27 @@ pub fn render_successes(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is true!"),
         &JsValue::from_str(input),
     );
-    let val = load(input);
-    if let Err(v) = val {
-        console::log_1(&v);
-        return;
+
+    fn doit(input: &str) -> Result<(), JsValue> {
+        let (doc, tester, body) = load(input)?;
+        for (state, res) in tester.eval() {
+            let row = doc.create_element("TR")?;
+            for i in 0..state.var_count() {
+                let col = doc.create_element("TD")?;
+                col.set_text_content(Some(&state.var_at(i).to_string()));
+                row.append_with_node_1(&col)?;
+            }
+            let col = doc.create_element("TD")?;
+            col.set_text_content(Some("true"));
+            row.append_with_node_1(&col)?;
+        }
+        Ok(())
     }
-    let (doc, tester, table) = val.unwrap();
+
+    match doit(input) {
+        Ok(_) => (),
+        Err(v) => console::log_1(&v),
+    }
 }
 
 #[wasm_bindgen]
@@ -111,12 +141,27 @@ pub fn render_failures(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is false!"),
         &JsValue::from_str(input),
     );
-    let val = load(input);
-    if let Err(v) = val {
-        console::log_1(&v);
-        return;
+
+    fn doit(input: &str) -> Result<(), JsValue> {
+        let (doc, tester, body) = load(input)?;
+        for (state, res) in tester.eval() {
+            let row = doc.create_element("TR")?;
+            for i in 0..state.var_count() {
+                let col = doc.create_element("TD")?;
+                col.set_text_content(Some(&state.var_at(i).to_string()));
+                row.append_with_node_1(&col)?;
+            }
+            let col = doc.create_element("TD")?;
+            col.set_text_content(Some("false"));
+            row.append_with_node_1(&col)?;
+        }
+        Ok(())
     }
-    let (doc, tester, table) = val.unwrap();
+
+    match doit(input) {
+        Ok(_) => (),
+        Err(v) => console::log_1(&v),
+    }
 }
 
 #[wasm_bindgen]
