@@ -3,7 +3,7 @@ use truth_tester::{
     tester::Tester,
 };
 use wasm_bindgen::{prelude::*, JsCast};
-use web_sys::{console, Document, Element, HtmlElement, HtmlTableElement};
+use web_sys::{console, Document, HtmlElement, HtmlTableElement};
 
 mod utils;
 use utils::*;
@@ -96,6 +96,7 @@ pub fn render_all(input: &str) {
             let col = doc.create_element("TD")?;
             col.set_text_content(Some(&res.to_string()));
             row.append_with_node_1(&col)?;
+            body.append_with_node_1(&row)?;
         }
         Ok(())
     }
@@ -115,7 +116,7 @@ pub fn render_successes(input: &str) {
 
     fn doit(input: &str) -> Result<(), JsValue> {
         let (doc, tester, body) = load(input)?;
-        for (state, res) in tester.eval() {
+        for state in tester.successes() {
             let row = doc.create_element("TR")?;
             for i in 0..state.var_count() {
                 let col = doc.create_element("TD")?;
@@ -125,6 +126,7 @@ pub fn render_successes(input: &str) {
             let col = doc.create_element("TD")?;
             col.set_text_content(Some("true"));
             row.append_with_node_1(&col)?;
+            body.append_with_node_1(&row)?;
         }
         Ok(())
     }
@@ -144,7 +146,7 @@ pub fn render_failures(input: &str) {
 
     fn doit(input: &str) -> Result<(), JsValue> {
         let (doc, tester, body) = load(input)?;
-        for (state, res) in tester.eval() {
+        for state in tester.failures() {
             let row = doc.create_element("TR")?;
             for i in 0..state.var_count() {
                 let col = doc.create_element("TD")?;
@@ -154,6 +156,7 @@ pub fn render_failures(input: &str) {
             let col = doc.create_element("TD")?;
             col.set_text_content(Some("false"));
             row.append_with_node_1(&col)?;
+            body.append_with_node_1(&row)?;
         }
         Ok(())
     }
