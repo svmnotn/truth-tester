@@ -3,7 +3,7 @@ use truth_tester::{
     tester::Tester,
 };
 use wasm_bindgen::{prelude::*, JsCast};
-use web_sys::{console, Document, Element, HtmlTableElement};
+use web_sys::{console, Document, Element, HtmlElement, HtmlTableElement};
 
 mod utils;
 use utils::*;
@@ -36,7 +36,7 @@ pub fn init_storage() {
     }
 }
 
-fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlTableElement), JsValue> {
+fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue> {
     // Get the current window
     let window = get_window()?;
     // obtain the literals configured by the user
@@ -45,6 +45,10 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlTableElement), JsV
     let tester = Tester::parse_with_literals(input, literals);
     // get the current document
     let doc = get_document(&window)?;
+    // make sure to remove past tables
+    if let Some(t) = doc.get_element_by_id("output-table") {
+        t.remove();
+    }
     // Make the output table
     let table = doc.create_element("TABLE")?;
     // the code below is fine since we just made sure to make it above
@@ -57,20 +61,20 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlTableElement), JsV
         let h_col = doc.create_element("TH")?;
         h_col.set_attribute("scope", "col")?;
         h_col.set_text_content(Some(var));
-        h_row.append_with_node_1(&h_col);
+        h_row.append_with_node_1(&h_col)?;
     }
     let h_col = doc.create_element("TH")?;
     h_col.set_attribute("scope", "col")?;
     h_col.set_text_content(Some("Result"));
-    h_row.append_with_node_1(&h_col);
-    header.append_with_node_1(&h_row);
+    h_row.append_with_node_1(&h_col)?;
+    header.append_with_node_1(&h_row)?;
 
     // get the output div
     let out = get_output_elem(&doc)?;
-    out.set_inner_html("");
+    // add the table to it
     out.append_with_node_1(&table)?;
 
-    Ok((doc, tester, table))
+    Ok((doc, tester, table.create_t_body()))
 }
 
 #[wasm_bindgen]
@@ -79,7 +83,12 @@ pub fn render_all(input: &str) {
         &JsValue::from_str("Writting out the truth table of expr '%s'!"),
         &JsValue::from_str(input),
     );
-    let (doc, tester, table) = load(input).expect("unable to load");
+    let val = load(input);
+    if let Err(v) = val {
+        console::log_1(&v);
+        return;
+    }
+    let (doc, tester, table) = val.unwrap();
 }
 
 #[wasm_bindgen]
@@ -88,7 +97,12 @@ pub fn render_successes(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is true!"),
         &JsValue::from_str(input),
     );
-    let (doc, tester, table) = load(input).expect("unable to load");
+    let val = load(input);
+    if let Err(v) = val {
+        console::log_1(&v);
+        return;
+    }
+    let (doc, tester, table) = val.unwrap();
 }
 
 #[wasm_bindgen]
@@ -97,7 +111,12 @@ pub fn render_failures(input: &str) {
         &JsValue::from_str("Writting out the places where expr '%s' is false!"),
         &JsValue::from_str(input),
     );
-    let (doc, tester, table) = load(input).expect("unable to load");
+    let val = load(input);
+    if let Err(v) = val {
+        console::log_1(&v);
+        return;
+    }
+    let (doc, tester, table) = val.unwrap();
 }
 
 #[wasm_bindgen]
