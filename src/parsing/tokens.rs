@@ -22,6 +22,13 @@ impl<'a> Tokens<'a> {
         self.var_map[idx]
     }
 
+    /// A list of all the variable names
+    /// ordered by occurence in the 
+    /// expression
+    pub fn vars(&self) -> &[&str] {
+        &self.var_map
+    }
+
     /// Return the amount of variables in the expression
     pub fn var_count(&self) -> usize {
         self.var_count

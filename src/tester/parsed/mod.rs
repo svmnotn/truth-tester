@@ -54,6 +54,11 @@ impl<'t> Tester<Tokens<'t>> {
         (self.expr.var_at(idx), s.var_at(idx))
     }
 
+    /// Returns all the variable names
+    pub fn vars(&self) -> &[&str] {
+        self.expr.vars()
+    }
+
     pub(crate) fn eval_iter(&self, iter: usize) -> (State, bool) {
         use alloc::vec::Vec;
         use Token::*;
