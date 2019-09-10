@@ -272,6 +272,9 @@ function init(module) {
     imports.wbg.__widl_f_set_id_Element = function(arg0, arg1, arg2) {
         getObject(arg0).id = getStringFromWasm(arg1, arg2);
     };
+    imports.wbg.__widl_f_set_inner_html_Element = function(arg0, arg1, arg2) {
+        getObject(arg0).innerHTML = getStringFromWasm(arg1, arg2);
+    };
     imports.wbg.__widl_f_append_with_node_1_Element = function(arg0, arg1) {
         try {
             getObject(arg0).append(getObject(arg1));

@@ -67,6 +67,7 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlTableElement), JsV
 
     // get the output div
     let out = get_output_elem(&doc)?;
+    out.set_inner_html("");
     out.append_with_node_1(&table)?;
 
     Ok((doc, tester, table))
