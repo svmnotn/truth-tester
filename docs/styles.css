@@ -1,6 +1,8 @@
 html {
     height: 100%;
     width: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
 }
 
 body {
@@ -11,6 +13,42 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: 'IBM Plex Sans', sans-serif;
+
+}
+
+label {
+    color: white;
+    font-family: 'IBM Plex Sans', sans-serif;
+}
+
+input {
+    padding-left: 12px;
+    min-height: 30px;
+    color: rgb(201, 201, 201);
+    background-color:rgba(228, 228, 228, 0.096);
+    border: none;
+    border-radius: 3px;
+}
+
+button {
+    height: 7vh;
+    max-width: 150px;
+    width: 20vw;
+    color: white;
+    background-color: #259492;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #4fa7a7;
+}
+
+button:active {
+    -moz-box-shadow:    inset 0px 0px 5px #144342;
+    -webkit-box-shadow: inset 0px 0px 5px #144342;
+    box-shadow:         inset 0px 0px 5px #144342;
 }
 
 content {
@@ -20,26 +58,75 @@ content {
     flex-direction: column;
 }
 
+.btn-group {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.btn-group button {
+    margin-top: 20px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+
+#show-options {
+    margin-top: 10px;
+    margin-right: 15px;
+}
+
+#options {
+    margin-top: 20px;
+}
+
 #title {
     text-align: center;
     color: white;
+}
+
+#function {
+    height: 6vh;
+    min-height: 50px;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: rgb(201, 201, 201);
+    opacity: 1; /* Firefox */
+  }
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: rgb(201, 201, 201);
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: rgb(201, 201, 201);
+}
+
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: transparent;
 }
 
 .data-in {
     padding: 2em;
     border-radius: 10px;
     border-width: 5em;
-    background-color: white;
+    /*background-color: white;*/
     align-items: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
-.btn-group {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
+
+
+
+
+
 .options {
     border-width: 5em;
     align-items: center;
@@ -53,8 +140,8 @@ table {
     border-collapse: collapse;
     min-width: 50%;
     grid-template-columns:
-        minmax(150px, 2fr)
-        minmax(150px, 3fr)
+        minmax(150px, 1fr)
+        minmax(150px, 4fr)
 }
 
 thead, tbody, tr {
