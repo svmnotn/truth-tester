@@ -5,65 +5,79 @@ on:
     # Every Sunday, run this action
     - cron: '0 0 * * 0'
 jobs:
-  # we have to separate out the mac build because github's image does not have rust installed
-  mac-build:
-    runs-on: macOS-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Default to nightly
-      run: rustup default nightly
-      continue-on-error: true
-    - name: Build default features
-      run: cargo build --verbose
-      continue-on-error: true
-    - name: Build parsing
-      run: cargo build --verbose --no-default-features --fetures parsing
-      continue-on-error: true
-    - name: Build tester
-      run: cargo build --verbose --no-default-features --fetures tester
-      continue-on-error: true
-    - name: Build parallel
-      run: cargo build --verbose --no-default-features --fetures parallel
-      continue-on-error: true
-    - name: Run tests
-      run: cargo test --verbose
-      continue-on-error: true
-  os-builds:
+  check:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest, macOS-latest]
     steps:
     - uses: actions/checkout@v1
-    - name: Default to nightly
-      run: rustup default nightly
+    - name: Set toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
     - name: Build default features
-      run: cargo build --verbose
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
     - name: Build parsing
-      run: cargo build --verbose --no-default-features --features parsing
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+        args: --no-default-features --fetures parsing
     - name: Build tester
-      run: cargo build --verbose --no-default-features --features tester
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+        args: --no-default-features --fetures tester
     - name: Build parallel
-      run: cargo build --verbose --no-default-features --features parallel
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+        args: --no-default-features --fetures parallel
     - name: Run tests
       run: cargo test --verbose
-  wasm-build:
+      continue-on-error: true
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        override: true
+    - uses: actions-rs/cargo@v1
+        with:
+          command: test
+  wasm-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Default to nightly
-      run: rustup default nightly
-    - name: Add wasm Target
-      run: rustup target add wasm32-unknown-unknown
-    - name: Build for wasm
-      run: cargo build --verbose --target wasm32-unknown-unknown
-  webview-build:
+    - name: Set toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        target: wasm32-unknown-unknown
+        override: true
+    - name: Build for WASM
+      uses: actions-rs/cargo@v1
+      with:
+        command: check
+        args: --target wasm32-unknown-unknown
+  webview-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Default to nightly
-      run: rustup default nightly
-    - name: Add wasm Target
-      run: rustup target add wasm32-unknown-unknown
+    - name: Set toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        target: wasm32-unknown-unknown
+        default: true
     - name: Build for wasm
-      run: cd docs/truth-tester-webview && cargo build --verbose --target wasm32-unknown-unknown
+      run: cd docs/truth-tester-webview && cargo check --target wasm32-unknown-unknown

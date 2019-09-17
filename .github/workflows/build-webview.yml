@@ -6,13 +6,15 @@ on:
       - '*'
       - '!src/*'    # Don't run workflow when files are only in the src directory
 jobs:
-  webview-build:
+  webview-check:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Default to nightly
-      run: rustup default nightly
-    - name: Add wasm Target
-      run: rustup target add wasm32-unknown-unknown
+    - name: Set toolchain
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: nightly
+        target: wasm32-unknown-unknown
+        default: true
     - name: Build for wasm
-      run: cd docs/truth-tester-webview && cargo +nightly build --verbose --target wasm32-unknown-unknown
+      run: cd docs/truth-tester-webview && cargo check --target wasm32-unknown-unknown
