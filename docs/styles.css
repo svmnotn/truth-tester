@@ -75,10 +75,6 @@ content {
     margin-right: 15px;
 }
 
-#options {
-    margin-top: 20px;
-}
-
 #title {
     text-align: center;
     color: white;
@@ -116,46 +112,39 @@ content {
     padding: 2em;
     border-radius: 10px;
     border-width: 5em;
-    /*background-color: white;*/
     align-items: center;
     display: flex;
     justify-content: center;
     flex-direction: column;
 }
 
-
-
-
-
 .options {
+    margin-top: 20px;
+    border-collapse: collapse;
     border-width: 5em;
     align-items: center;
-}
-.data-out {
-    border-width: 5em;
-}
-
-table {
-    display: grid;
-    border-collapse: collapse;
     min-width: 50%;
     grid-template-columns:
         minmax(150px, 1fr)
         minmax(150px, 4fr)
 }
 
-thead, tbody, tr {
-    display: contents;
-}
-
-th, td {
+.options .row, .options .col {
     padding: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-td {
+.options .row {
+    display: contents;
+}
+
+.options .col {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.data-out {
+    border-width: 5em;
 }
