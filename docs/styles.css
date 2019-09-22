@@ -148,3 +148,27 @@ content {
 .data-out {
     border-width: 5em;
 }
+
+table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+thead {
+    color: white;
+}
+
+tbody {
+    color: #50c8c8;
+}
+
+th {
+  border: 1px solid black;
+}
+
+td {
+  border: 1px solid black;
+  border-top-style: dashed;
+  border-bottom-style: dashed;
+}
