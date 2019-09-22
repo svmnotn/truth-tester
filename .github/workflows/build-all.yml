@@ -25,17 +25,17 @@ jobs:
       uses: actions-rs/cargo@v1
       with:
         command: check
-        args: --no-default-features --fetures parsing
+        args: --no-default-features --features parsing
     - name: Build tester
       uses: actions-rs/cargo@v1
       with:
         command: check
-        args: --no-default-features --fetures tester
+        args: --no-default-features --features tester
     - name: Build parallel
       uses: actions-rs/cargo@v1
       with:
         command: check
-        args: --no-default-features --fetures parallel
+        args: --no-default-features --features parallel
     - name: Run tests
       run: cargo test --verbose
       continue-on-error: true
