@@ -23,7 +23,7 @@ impl<'a> Tokens<'a> {
     }
 
     /// A list of all the variable names
-    /// ordered by occurence in the 
+    /// ordered by occurence in the
     /// expression
     pub fn vars(&self) -> &[&str] {
         &self.var_map

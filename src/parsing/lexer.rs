@@ -4,14 +4,14 @@ use core::{iter::Peekable, str::SplitWhitespace};
 
 /// Boolean Expression Lexer
 #[derive(Debug)]
-pub struct Lexer<'t, 'i: 't> {
+pub struct Lexer<'i> {
     literals: TokenLiterals,
     input: Peekable<SplitWhitespace<'i>>,
-    curr_str: &'t str,
-    var_map: BTreeMap<&'t str, usize>,
+    curr_str: &'i str,
+    var_map: BTreeMap<&'i str, usize>,
 }
 
-impl<'t, 'i: 't> Lexer<'t, 'i> {
+impl<'i> Lexer<'i> {
     /// Create a Lexer using the Default
     /// [`TokenLiterals`].
     ///
@@ -26,9 +26,7 @@ impl<'t, 'i: 't> Lexer<'t, 'i> {
             var_map: BTreeMap::new(),
         }
     }
-}
 
-impl<'t, 'i: 't> Lexer<'t, 'i> {
     /// Create a Lexer with the given [`TokenLiterals`]
     ///
     /// [`TokenLiterals`]: `TokenLiterals`
@@ -48,21 +46,21 @@ impl<'t, 'i: 't> Lexer<'t, 'i> {
     ///
     /// *This function should only be called after
     /// the Lexer has finished*
-    pub(crate) fn var_map(&self) -> Vec<&'t str> {
-        let mut v: Vec<(&'t str, usize)> = self.var_map.iter().map(|(k,v)| (*k,*v)).collect();
-        v.sort_unstable_by(|a,b| a.1.partial_cmp(&b.1).expect("Unable to compare"));
+    pub(crate) fn var_map(&self) -> Vec<&'i str> {
+        let mut v: Vec<(&'i str, usize)> = self.var_map.iter().map(|(k, v)| (*k, *v)).collect();
+        v.sort_unstable_by(|a, b| a.1.partial_cmp(&b.1).expect("Unable to compare"));
         v.iter().map(|(name, _)| *name).collect()
     }
 }
 
-impl<'t, 'i: 't> Iterator for Lexer<'t, 'i> {
-    type Item = Token<'t>;
+impl<'i> Iterator for Lexer<'i> {
+    type Item = Token<'i>;
 
     fn next(&mut self) -> Option<Self::Item> {
         use Token::*;
 
         #[inline]
-        fn find<'i>(inp: &'i str, tokens: &[String], t: Token<'i>) -> Option<(Token<'i>, usize)> {
+        fn find<'s>(inp: &'s str, tokens: &[String], t: Token<'s>) -> Option<(Token<'s>, usize)> {
             tokens
                 .iter()
                 .find(|token| {

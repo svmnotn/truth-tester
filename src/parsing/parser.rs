@@ -3,11 +3,11 @@ use alloc::vec::Vec;
 
 /// Boolean Expression Parser
 #[derive(Debug)]
-pub struct Parser<'t, 'i: 't> {
-    lexer: Lexer<'t, 'i>,
+pub struct Parser<'i> {
+    lexer: Lexer<'i>,
 }
 
-impl<'t, 'i: 't> Parser<'t, 'i> {
+impl<'i> Parser<'i> {
     /// Create a new Parser with the
     /// Default [`TokenLiterals`].
     ///
@@ -17,9 +17,7 @@ impl<'t, 'i: 't> Parser<'t, 'i> {
             lexer: Lexer::lex(input),
         }
     }
-}
 
-impl<'t, 'i: 't> Parser<'t, 'i> {
     /// Create a new Parser with the given
     /// [`TokenLiterals`].
     ///
@@ -31,7 +29,7 @@ impl<'t, 'i: 't> Parser<'t, 'i> {
     }
 
     /// Run the Shunting Yard algorithm on the input
-    pub fn shunting_yard(&mut self) -> Tokens<'t> {
+    pub fn shunting_yard(&mut self) -> Tokens<'i> {
         use Token::*;
         let mut toks: Vec<Token> = Vec::new();
         let mut stack: Vec<Token> = Vec::new();
