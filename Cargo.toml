@@ -6,7 +6,7 @@ edition = "2018"
 description = "A library for testing  all possible states of N variables."
 repository = "https://github.com/svmnotn/truth-tester"
 readme = "README.md"
-keywords = ["no-std", "boolean-expression-parser", "boolean-expression-tester"]
+keywords = ["no-std", "boolean-expression", "boolean-expression-parser", "boolean-expression-evaluator"]
 categories = ["no-std", "parser-implementations"]
 license = "Apache-2.0 OR MIT"
 
@@ -25,9 +25,10 @@ maintenance = { status = "experimental" }
 # with --no-default-features alone
 # disables _everything_, so make
 # sure to enable some features
-default = ["parallel", "parsing"]
-# Enables the `Tester` and `State` types
-# so that you can use this library to
+default = ["tester", "parsing"]
+# Enables the `Tester`, `State` and
+# `Expression` types so that you 
+# can use this library to
 # test boolean expressions
 tester = ["bit_field"]
 # Enables the `parsing` module
@@ -35,7 +36,7 @@ tester = ["bit_field"]
 # of parsing boolean expression
 # However, this requires allocation
 parsing = []
-# Rayon is _not_ no_std
+# Rayon is _not_ no_std compatible
 parallel = ["rayon", "tester"]
 
 [dependencies]
