@@ -39,52 +39,96 @@ pub(crate) fn get_item(store: &Storage, key: &str) -> Result<String, JsValue> {
         .ok_or_else(|| JsValue::from_str("Expected item not found"))
 }
 
-const PAT: &'static str = ", ";
-
 pub(crate) fn fill_storage(store: &Storage, literals: &TokenLiterals) -> Result<(), JsValue> {
-    set_item(store, "lit-true", &literals.lit_true.join(PAT))?;
-    set_item(store, "lit-false", &literals.lit_false.join(PAT))?;
-    set_item(store, "not", &literals.not.join(PAT))?;
-    set_item(store, "and", &literals.and.join(PAT))?;
-    set_item(store, "xor", &literals.xor.join(PAT))?;
-    set_item(store, "or", &literals.or.join(PAT))?;
-    set_item(store, "implication", &literals.implication.join(PAT))?;
-    set_item(store, "equality", &literals.equality.join(PAT))?;
-    set_item(store, "left-paren", &literals.left_paren.join(PAT))?;
-    set_item(store, "right-paren", &literals.right_paren.join(PAT))?;
+    const PAT: &'static str = ", ";
+
+    set_item(store, "lit-true", &literals.lit_true().join(PAT))?;
+    set_item(store, "lit-false", &literals.lit_false().join(PAT))?;
+    set_item(store, "not", &literals.not().join(PAT))?;
+    set_item(store, "and", &literals.and().join(PAT))?;
+    set_item(store, "xor", &literals.xor().join(PAT))?;
+    set_item(store, "or", &literals.or().join(PAT))?;
+    set_item(store, "implication", &literals.implication().join(PAT))?;
+    set_item(store, "equality", &literals.equality().join(PAT))?;
+    set_item(store, "left-paren", &literals.left_paren().join(PAT))?;
+    set_item(store, "right-paren", &literals.right_paren().join(PAT))?;
 
     Ok(())
 }
 
 pub(crate) fn read_storage(store: &Storage) -> Result<TokenLiterals, JsValue> {
-    Ok(TokenLiterals {
-        lit_true: get_item(store, "lit-true")?
+    const PAT: &'static str = ",";
+
+    let mut lit = TokenLiterals::default();
+    lit.set_lit_true(
+        get_item(store, "lit-true")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-        lit_false: get_item(store, "lit-false")?
+    );
+    lit.set_lit_false(
+        get_item(store, "lit-false")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-        not: get_item(store, "not")?.split(PAT).map(Into::into).collect(),
-        and: get_item(store, "and")?.split(PAT).map(Into::into).collect(),
-        xor: get_item(store, "xor")?.split(PAT).map(Into::into).collect(),
-        or: get_item(store, "or")?.split(PAT).map(Into::into).collect(),
-        implication: get_item(store, "implication")?
+    );
+    lit.set_not(
+        get_item(store, "not")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-        equality: get_item(store, "equality")?
+    );
+    lit.set_and(
+        get_item(store, "and")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-        left_paren: get_item(store, "left-paren")?
+    );
+    lit.set_xor(
+        get_item(store, "xor")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-        right_paren: get_item(store, "right-paren")?
+    );
+    lit.set_or(
+        get_item(store, "or")?
             .split(PAT)
+            .map(|v| v.trim())
             .map(Into::into)
             .collect(),
-    })
+    );
+    lit.set_implication(
+        get_item(store, "implication")?
+            .split(PAT)
+            .map(|v| v.trim())
+            .map(Into::into)
+            .collect(),
+    );
+    lit.set_equality(
+        get_item(store, "equality")?
+            .split(PAT)
+            .map(|v| v.trim())
+            .map(Into::into)
+            .collect(),
+    );
+    lit.set_left_paren(
+        get_item(store, "left-paren")?
+            .split(PAT)
+            .map(|v| v.trim())
+            .map(Into::into)
+            .collect(),
+    );
+    lit.set_right_paren(
+        get_item(store, "right-paren")?
+            .split(PAT)
+            .map(|v| v.trim())
+            .map(Into::into)
+            .collect(),
+    );
+    Ok(lit)
 }

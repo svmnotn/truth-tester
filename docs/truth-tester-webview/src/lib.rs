@@ -1,6 +1,6 @@
 use truth_tester::{
+    eval::{State, Tester},
     parsing::{TokenLiterals, Tokens},
-    tester::Tester,
 };
 use wasm_bindgen::{prelude::*, JsCast};
 use web_sys::{console, Document, HtmlElement, HtmlTableElement};
@@ -15,6 +15,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub fn init_storage() {
     console::log_1(&JsValue::from_str("Initializing Storage!"));
 
+    #[inline]
     fn store() -> Result<(), JsValue> {
         let store = get_storage(&get_window()?)?;
 
@@ -45,6 +46,11 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue>
     let tester = Tester::parse_with_literals(input, literals);
     // get the current document
     let doc = get_document(&window)?;
+
+    //
+    // Make the Table
+    //
+
     // make sure to remove past tables
     if let Some(t) = doc.get_element_by_id("output-table") {
         t.remove();
@@ -55,6 +61,11 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue>
     let table: HtmlTableElement = table.unchecked_into();
     table.set_id("output-table");
 
+    //
+    // Render the table header
+    //
+
+    // Create the actual header element
     let header = table.create_t_head();
     let h_row = doc.create_element("TR")?;
     for var in tester.vars() {
@@ -67,7 +78,13 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue>
     h_col.set_attribute("scope", "col")?;
     h_col.set_text_content(Some("Result"));
     h_row.append_with_node_1(&h_col)?;
+    // add everything we just made
+    // to the header
     header.append_with_node_1(&h_row)?;
+
+    //
+    // Append the table to the document
+    //
 
     // get the output div
     let out = get_output_elem(&doc)?;
@@ -77,6 +94,30 @@ fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue>
     Ok((doc, tester, table.create_t_body()))
 }
 
+fn render_data<S: State>(
+    doc: &Document,
+    body: &HtmlElement,
+    tester: &Tester<Tokens>,
+    state: S,
+    res: &str,
+) -> Result<(), JsValue> {
+    // Create the row for this data
+    let row = doc.create_element("TR")?;
+    for val in tester.var_vals(state) {
+        let col = doc.create_element("TD")?;
+        col.set_text_content(Some(&val.to_string()));
+        row.append_with_node_1(&col)?;
+    }
+    let col = doc.create_element("TD")?;
+    col.set_text_content(Some(res));
+    // append everything to the row
+    row.append_with_node_1(&col)?;
+    // and the row to the table
+    body.append_with_node_1(&row)?;
+
+    Ok(())
+}
+
 #[wasm_bindgen]
 pub fn render_all(input: &str) {
     console::log_2(
@@ -84,19 +125,11 @@ pub fn render_all(input: &str) {
         &JsValue::from_str(input),
     );
 
+    #[inline]
     fn doit(input: &str) -> Result<(), JsValue> {
         let (doc, tester, body) = load(input)?;
         for (state, res) in tester.eval() {
-            let row = doc.create_element("TR")?;
-            for i in 0..state.var_count() {
-                let col = doc.create_element("TD")?;
-                col.set_text_content(Some(&state.var_at(i).to_string()));
-                row.append_with_node_1(&col)?;
-            }
-            let col = doc.create_element("TD")?;
-            col.set_text_content(Some(&res.to_string()));
-            row.append_with_node_1(&col)?;
-            body.append_with_node_1(&row)?;
+            render_data(&doc, &body, &tester, state, &res.to_string())?;
         }
         Ok(())
     }
@@ -114,19 +147,11 @@ pub fn render_successes(input: &str) {
         &JsValue::from_str(input),
     );
 
+    #[inline]
     fn doit(input: &str) -> Result<(), JsValue> {
         let (doc, tester, body) = load(input)?;
         for state in tester.successes() {
-            let row = doc.create_element("TR")?;
-            for i in 0..state.var_count() {
-                let col = doc.create_element("TD")?;
-                col.set_text_content(Some(&state.var_at(i).to_string()));
-                row.append_with_node_1(&col)?;
-            }
-            let col = doc.create_element("TD")?;
-            col.set_text_content(Some("true"));
-            row.append_with_node_1(&col)?;
-            body.append_with_node_1(&row)?;
+            render_data(&doc, &body, &tester, state, "true")?;
         }
         Ok(())
     }
@@ -144,19 +169,11 @@ pub fn render_failures(input: &str) {
         &JsValue::from_str(input),
     );
 
+    #[inline]
     fn doit(input: &str) -> Result<(), JsValue> {
         let (doc, tester, body) = load(input)?;
         for state in tester.failures() {
-            let row = doc.create_element("TR")?;
-            for i in 0..state.var_count() {
-                let col = doc.create_element("TD")?;
-                col.set_text_content(Some(&state.var_at(i).to_string()));
-                row.append_with_node_1(&col)?;
-            }
-            let col = doc.create_element("TD")?;
-            col.set_text_content(Some("false"));
-            row.append_with_node_1(&col)?;
-            body.append_with_node_1(&row)?;
+            render_data(&doc, &body, &tester, state, "false")?;
         }
         Ok(())
     }
@@ -175,6 +192,7 @@ pub fn change_value(id: &str, value: &str) {
         &JsValue::from_str(value),
     );
 
+    #[inline]
     fn doit(id: &str, value: &str) -> Result<(), JsValue> {
         let store = get_storage(&get_window()?)?;
         set_item(&store, id, value)?;
@@ -194,6 +212,7 @@ pub fn get_value(id: &str) -> String {
         &JsValue::from_str(id),
     );
 
+    #[inline]
     fn doit(id: &str) -> Result<String, JsValue> {
         let store = get_storage(&get_window()?)?;
         get_item(&store, id)
