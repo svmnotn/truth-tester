@@ -1,6 +1,6 @@
 # truth-tester
 [![Build Status](https://travis-ci.com/svmnotn/truth-tester.svg?branch=master)](https://travis-ci.com/svmnotn/truth-tester)
 
-A Work In Progress, `#![no_std]` compatible library that allows for the testing of boolean expressions in two ways:
-1. Programmatically, using the library from another rust project you can give it a function along the lines of `|s: State| s.var_at(0) && s.var_at(1)` and it will test it for all possible values of that two variable state.
-2. Via passing of a string containing a boolean expression. The expression is parsed and processed to obtain the results.
+A Work In Progress, `#![no_std]` compatible library for parsing an evaluating boolean expressions.
+It also has a Web based GUI available for all to use [here](https://svmnotn.github.io/truth-tester), 
+Thanks to [Shanna Sit](@Haruaka) for making the CSS for the Web GUI.
