@@ -1,4 +1,4 @@
-use crate::tester::{Expression, State, Tester};
+use crate::eval::{Expression, State, Tester};
 use rayon::{
     iter::{IntoParallelIterator, ParallelIterator},
     range::Iter,
