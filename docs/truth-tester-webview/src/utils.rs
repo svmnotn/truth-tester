@@ -1,6 +1,90 @@
-use truth_tester::parsing::TokenLiterals;
-use wasm_bindgen::prelude::*;
-use web_sys::{Document, Element, Storage, Window};
+use truth_tester::{
+    eval::{State, Tester},
+    parsing::{TokenLiterals, Tokens},
+};
+use wasm_bindgen::{prelude::*, JsCast};
+use web_sys::{Document, Element, HtmlElement, HtmlTableElement, Storage, Window};
+
+pub(crate) fn load(input: &str) -> Result<(Document, Tester<Tokens>, HtmlElement), JsValue> {
+    // Get the current window
+    let window = get_window()?;
+    // obtain the literals configured by the user
+    let literals = read_storage(&get_storage(&window)?)?;
+    // read the input into a testable expression
+    let tester = Tester::parse_with_literals(input, literals);
+    // get the current document
+    let doc = get_document(&window)?;
+
+    //
+    // Make the Table
+    //
+
+    // make sure to remove past tables
+    if let Some(t) = doc.get_element_by_id("output-table") {
+        t.remove();
+    }
+    // Make the output table
+    let table = doc.create_element("TABLE")?;
+    // the code below is fine since we just made sure to make it above
+    let table: HtmlTableElement = table.unchecked_into();
+    table.set_id("output-table");
+
+    //
+    // Render the table header
+    //
+
+    // Create the actual header element
+    let header = table.create_t_head();
+    let h_row = doc.create_element("TR")?;
+    for var in tester.vars() {
+        let h_col = doc.create_element("TH")?;
+        h_col.set_attribute("scope", "col")?;
+        h_col.set_text_content(Some(var));
+        h_row.append_with_node_1(&h_col)?;
+    }
+    let h_col = doc.create_element("TH")?;
+    h_col.set_attribute("scope", "col")?;
+    h_col.set_text_content(Some("Result"));
+    h_row.append_with_node_1(&h_col)?;
+    // add everything we just made
+    // to the header
+    header.append_with_node_1(&h_row)?;
+
+    //
+    // Append the table to the document
+    //
+
+    // get the output div
+    let out = get_output_elem(&doc)?;
+    // add the table to it
+    out.append_with_node_1(&table)?;
+
+    Ok((doc, tester, table.create_t_body()))
+}
+
+pub(crate) fn render_data<S: State>(
+    doc: &Document,
+    body: &HtmlElement,
+    tester: &Tester<Tokens>,
+    state: S,
+    res: &str,
+) -> Result<(), JsValue> {
+    // Create the row for this data
+    let row = doc.create_element("TR")?;
+    for val in tester.var_vals(state) {
+        let col = doc.create_element("TD")?;
+        col.set_text_content(Some(&val.to_string()));
+        row.append_with_node_1(&col)?;
+    }
+    let col = doc.create_element("TD")?;
+    col.set_text_content(Some(res));
+    // append everything to the row
+    row.append_with_node_1(&col)?;
+    // and the row to the table
+    body.append_with_node_1(&row)?;
+
+    Ok(())
+}
 
 pub(crate) fn get_window() -> Result<Window, JsValue> {
     web_sys::window().ok_or_else(|| JsValue::from_str("No Window Found!"))
