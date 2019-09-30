@@ -1,5 +1,5 @@
 use super::{Token, TokenLiterals};
-use alloc::{collections::btree_map::BTreeMap, string::String, vec::Vec};
+use alloc::{collections::btree_map::BTreeMap, vec::Vec};
 use core::{iter::Peekable, str::SplitWhitespace};
 
 /// Boolean Expression Lexer
@@ -59,20 +59,6 @@ impl<'i> Iterator for Lexer<'i> {
     fn next(&mut self) -> Option<Self::Item> {
         use Token::*;
 
-        #[inline]
-        fn find<'s>(inp: &'s str, tokens: &[String], t: Token<'s>) -> Option<(Token<'s>, usize)> {
-            tokens
-                .iter()
-                .find(|token| {
-                    if inp.len() < token.len() {
-                        false
-                    } else {
-                        token.eq_ignore_ascii_case(&inp[0..token.len()])
-                    }
-                })
-                .map(|s| (t, s.len()))
-        }
-
         if self.input.peek().is_none() && self.curr_str.is_empty() {
             None
         } else {
@@ -89,17 +75,7 @@ impl<'i> Iterator for Lexer<'i> {
 
             for i in 0..self.curr_str.len() {
                 let search_str = &self.curr_str[i..];
-                if let Some((val, len)) = find(search_str, &self.literals.lit_true, Literal(true))
-                    .or_else(|| find(search_str, &self.literals.lit_false, Literal(false)))
-                    .or_else(|| find(search_str, &self.literals.not, Not))
-                    .or_else(|| find(search_str, &self.literals.and, And))
-                    .or_else(|| find(search_str, &self.literals.xor, Xor))
-                    .or_else(|| find(search_str, &self.literals.or, Or))
-                    .or_else(|| find(search_str, &self.literals.implication, Implication))
-                    .or_else(|| find(search_str, &self.literals.equality, Equality))
-                    .or_else(|| find(search_str, &self.literals.left_paren, LParen))
-                    .or_else(|| find(search_str, &self.literals.right_paren, RParen))
-                {
+                if let Some((val, len)) = self.literals.starts_with(search_str) {
                     found_idx = i;
                     found_val = Some(val);
                     found_val_len = len;

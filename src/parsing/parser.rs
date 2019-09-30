@@ -8,27 +8,18 @@ pub struct Parser<'i> {
 }
 
 impl<'i> Parser<'i> {
-    /// Create a new Parser with the
-    /// Default [`TokenLiterals`].
-    ///
-    /// [`TokenLiterals`]: `TokenLiterals`
     pub fn parse(input: &'i str) -> Self {
         Self {
             lexer: Lexer::lex(input),
         }
     }
 
-    /// Create a new Parser with the given
-    /// [`TokenLiterals`].
-    ///
-    /// [`TokenLiterals`]: `TokenLiterals`
     pub fn parse_with_literals(input: &'i str, literals: TokenLiterals) -> Self {
         Self {
             lexer: Lexer::lex_with_literals(input, literals),
         }
     }
 
-    /// Run the Shunting Yard algorithm on the input
     pub fn shunting_yard(&mut self) -> Tokens<'i> {
         use Token::*;
         let mut toks: Vec<Token> = Vec::new();
@@ -37,8 +28,7 @@ impl<'i> Parser<'i> {
         while let Some(t) = self.lexer.next() {
             match t {
                 // Values can go directly to the output
-                Var(s, v) => toks.push(Var(s, v)),
-                Literal(v) => toks.push(Literal(v)),
+                v @ Var(..) | v @ Literal(..) => toks.push(v),
                 // Parens mess mostly with the stack
                 LParen => stack.push(LParen),
                 RParen => {
@@ -77,12 +67,6 @@ impl<'i> Parser<'i> {
             toks.push(t);
         }
 
-        let var_map = self.lexer.var_map();
-
-        Tokens {
-            toks,
-            var_count: var_map.len(),
-            var_map,
-        }
+        Tokens::new(toks, self.lexer.var_map())
     }
 }
