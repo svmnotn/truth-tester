@@ -76,6 +76,7 @@ content {
 }
 
 #title {
+    margin-top: 8vh;
     text-align: center;
     color: white;
 }
@@ -152,7 +153,7 @@ content {
 table {
     width: 100%;
     text-align: center;
-    border-collapse: collapse;
+    border-spacing: 0px;
 }
 
 thead {
@@ -160,15 +161,71 @@ thead {
 }
 
 tbody {
-    color: #50c8c8;
+    color: white;
 }
 
 th {
-  border: 1px solid black;
+    background-color: rgba(37, 148, 146, .6);
+    font-weight: 600;
+    text-align:  left;
+    height: 7vh;
+    padding-left: 3vw;
 }
 
 td {
-  border: 1px solid black;
-  border-top-style: dashed;
-  border-bottom-style: dashed;
+    background-color: rgba(201, 201, 201, .1);
+    text-align: left;
+    height: 5vh;
+    padding: 1vw 1vw 1vw 3vw;
+}
+
+td:hover {
+    background-color: rgba(201, 201, 201, .4);
+}
+
+tr:hover {
+    background-color: rgba(201, 201, 201, .2);
+}
+
+
+/* MEDIA QUERIES */
+/* Small devices (portrait/landscape tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 1023px) {
+    button {
+        height: 5vh;
+    }
+
+    button:focus {
+        -moz-box-shadow:    inset 0px 0px 2px #144342;
+        -webkit-box-shadow: inset 0px 0px 2px #144342;
+        box-shadow:         inset 0px 0px 2px #144342;
+    }
+
+    th {
+        height: 5vh;
+    }
+
+    #function {
+        max-width: 100%;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    button {
+        width: 90px;
+    }
+
+    button:focus {
+        -moz-box-shadow:    inset 0px 0px 2px #144342;
+        -webkit-box-shadow: inset 0px 0px 2px #144342;
+        box-shadow:         inset 0px 0px 2px #144342;
+    }
+
+    .data-in {
+        padding: 1em;
+    }
+
+    #function {
+        max-width: 90%;
+    }
 }
