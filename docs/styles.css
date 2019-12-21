@@ -1,12 +1,17 @@
 html {
     height: 100%;
     width: 100%;
+    margin: 0;
+    padding: 0;
     overflow: scroll;
     overflow-x: hidden;
 }
 
 body {
-    margin: 3% 8%;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     background: -moz-linear-gradient(155deg, #1a2980, #259492);
     background: -webkit-linear-gradient(155deg, #1a2980, #259492); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(155deg, #1a2980, #259492); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
@@ -51,11 +56,12 @@ button:active {
     box-shadow:         inset 0px 0px 5px #144342;
 }
 
-content {
+.content {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    padding: 0 5%;
 }
 
 .btn-group {
@@ -117,6 +123,7 @@ content {
     display: flex;
     justify-content: center;
     flex-direction: column;
+    max-width: 100%;
 }
 
 .options {
@@ -147,7 +154,9 @@ content {
 }
 
 .data-out {
+    width: 100%;
     border-width: 5em;
+    margin-bottom: 10%;
 }
 
 table {
@@ -189,8 +198,19 @@ tr:hover {
 
 
 /* MEDIA QUERIES */
+
+@media only screen and (min-width: 800px) and (max-width: 1023px) {
+    th {
+        height: 3vh;
+    }
+
+    td {
+        height: 2vh;
+    }
+}
+
 /* Small devices (portrait/landscape tablets and large phones, 600px and up) */
-@media only screen and (min-width: 600px) and (max-width: 1023px) {
+@media only screen and (min-width: 600px) and (max-width: 800px) {
     body {
         min-height: 100vh;
     }
@@ -206,7 +226,11 @@ tr:hover {
     }
 
     th {
-        height: 5vh;
+        height: 9vh;
+    }
+
+    td {
+        height: 7vh;
     }
 
     #function {
