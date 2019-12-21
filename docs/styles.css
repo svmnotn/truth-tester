@@ -13,7 +13,6 @@ body {
     background-repeat: no-repeat;
     background-attachment: fixed;
     font-family: 'IBM Plex Sans', sans-serif;
-
 }
 
 label {
@@ -32,6 +31,7 @@ input {
 
 button {
     height: 7vh;
+    min-height: 40px;
     max-width: 150px;
     width: 20vw;
     color: white;
@@ -191,6 +191,10 @@ tr:hover {
 /* MEDIA QUERIES */
 /* Small devices (portrait/landscape tablets and large phones, 600px and up) */
 @media only screen and (min-width: 600px) and (max-width: 1023px) {
+    body {
+        min-height: 100vh;
+    }
+
     button {
         height: 5vh;
     }
@@ -210,7 +214,14 @@ tr:hover {
     }
 }
 
+/*Phones with smaller screens*/
 @media only screen and (max-width: 600px) {
+    body {
+        min-height: 100vh;
+        width:100%;
+        height:100%;
+    }
+
     button {
         width: 90px;
     }
