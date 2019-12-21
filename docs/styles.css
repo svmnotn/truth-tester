@@ -240,6 +240,10 @@ tr:hover {
 
 /*Phones with smaller screens*/
 @media only screen and (max-width: 600px) {
+    html {
+        min-height: 100vh;
+    }
+
     body {
         min-height: 100vh;
     }
@@ -256,6 +260,10 @@ tr:hover {
 
     .data-in {
         padding: 1em;
+    }
+
+    .options {
+        margin-right: 15px;
     }
 
     #function {
